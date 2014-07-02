@@ -13,103 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lorislab.guardian.user.model;
 
+package org.lorislab.guardian.api.model;
+
+import java.io.Serializable;
 import java.util.Locale;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import org.lorislab.jel.jpa.model.TraceablePersistent;
 
 /**
- * The user profile.
  *
  * @author Andrej Petras
  */
-@Entity(name = "GUserProfile")
-@Table(name = "GU_USER_PROFILE")
-public class UserProfile extends TraceablePersistent {
-
-    /**
+public class ProfileData implements Serializable {
+  /**
      * The UID for this class.
      */
-    private static final long serialVersionUID = 7706500724718802209L;
-
-    /**
-     * The user.
-     */
-    @OneToOne(mappedBy = "profile")
-    private User user;
+    private static final long serialVersionUID = -5753794627419101991L;
 
     /*
      * The first name.
      */
-    @Column(name = "C_FIRSTNAME")
     private String firstName;
+
     /**
      * The middle name.
      */
-    @Column(name = "C_MIDDLENAME")
     private String middleName;
+
     /**
      * The last name.
      */
-    @Column(name = "C_LASTNAME")
     private String lastName;
 
     /**
      * The email.
      */
-    @Column(name = "C_EMAIL", unique = true)
     private String email;
+
     /**
      * The locale.
      */
-    @Column(name = "C_LANG")
     private Locale locale;
-
-    /**
-     * The organisation.
-     */
-    @Column(name = "C_ORG")
-    private String organization;
-    
- /**
-     * Gets the organisation.
-     *
-     * @return the organisation.
-     */
-    public String getOrganization() {
-        return organization;
-    }
-
-    /**
-     * Sets the organisation.
-     *
-     * @param organization the organisation to set.
-     */
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-    
-    /**
-     * Gets the user.
-     *
-     * @return the user.
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user.
-     *
-     * @param user the user to set.
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     /**
      * Gets the first name.
@@ -199,6 +142,5 @@ public class UserProfile extends TraceablePersistent {
      */
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
+    }    
 }

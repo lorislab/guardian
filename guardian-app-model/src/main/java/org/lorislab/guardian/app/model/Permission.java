@@ -59,12 +59,36 @@ public class Permission extends Persistent {
     private boolean enabled;
 
     /**
+     * The system permission.
+     */
+    @Column(name = "C_SYSTEM")
+    private boolean system;
+    
+    /**
      * The application.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_APP_GUID")
     private Application application;
 
+    /**
+     * Gets the system permission flag.
+     *
+     * @return the system permission flag.
+     */
+    public boolean isSystem() {
+        return system;
+    }
+
+    /**
+     * Sets the system permission flag.
+     *
+     * @param system the system permission flag.
+     */
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+    
     /**
      * Gets the context.
      *

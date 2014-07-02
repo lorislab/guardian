@@ -12,6 +12,9 @@
 		<module>guardian-service</module>
 		<module>guardian-app-model</module>
 		<module>guardian-user-model</module>
+		<module>guardian-app-web</module>
+		<module>guardian-user-web</module>		
+		<module>guardian-jsf</module>
 	</modules>
 	
 	<scm>

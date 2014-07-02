@@ -8,22 +8,14 @@
 		<relativePath>../</relativePath>
     </parent>
 	
-    <artifactId>guardian-service</artifactId> 
-    <name>guardian-service</name>
-	<packaging>ejb</packaging>
+    <artifactId>guardian-jsf</artifactId> 
+    <name>guardian-jsf</name>
 	
 	<dependencies>
+		<!-- JEL -->
 		<dependency>
-			<groupId>org.lorislab.guardian</groupId>
-			<artifactId>guardian-api</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.lorislab.jel</groupId>
+			<artifactId>jel-jsf</artifactId>
 		</dependency>
-		
-		<!-- EJB -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>   		
 	</dependencies>
 </project>

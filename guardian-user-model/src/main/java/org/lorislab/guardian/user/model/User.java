@@ -45,7 +45,7 @@ public class User extends TraceablePersistent {
      * The principal.
      */
     @Column(name = "C_PRINCIPAL")
-    private String principalId;
+    private String principal;
 
     /**
      * The enabled flag.
@@ -57,25 +57,132 @@ public class User extends TraceablePersistent {
      */
     @Column(name = "C_DELETED")
     private boolean deleted;
-    
+
     /**
      * The members.
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
-    private Set<UserMember> members = new HashSet<>();   
-    
+    private Set<UserMember> members = new HashSet<>();
+
     /**
      * The parameters.
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
-    private Set<UserParameter> parameters = new HashSet<>(); 
-    
+    private Set<UserParameter> parameters = new HashSet<>();
+
     /**
      * The user profile.
      */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="C_PROFILE_GUID")    
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "C_PROFILE_GUID")
     private UserProfile profile;
-    
-    
+
+    /**
+     * The principal.
+     *
+     * @return the principal
+     */
+    public String getPrincipal() {
+        return principal;
+    }
+
+    /**
+     * Sets the principal.
+     *
+     * @param principal the principal to set
+     */
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    /**
+     * Gets the enabled flag.
+     *
+     * @return the enabled flag.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Sets the enabled flag.
+     *
+     * @param enabled the enabled flag to set.
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * Gets the deleted flag.
+     *
+     * @return the deleted flag.
+     */
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * Sets the deleted flag.
+     *
+     * @param deleted the deleted flag to set.
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    /**
+     * Gets the members.
+     *
+     * @return the members.
+     */
+    public Set<UserMember> getMembers() {
+        return members;
+    }
+
+    /**
+     * Sets the members.
+     *
+     * @param members the members to set.
+     */
+    public void setMembers(Set<UserMember> members) {
+        this.members = members;
+    }
+
+    /**
+     * Gets the user profile.
+     *
+     * @return the profile.
+     */
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    /**
+     * Sets the user profile.
+     *
+     * @param profile the profile to set.
+     */
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
+    /**
+     * Gets the set of user parameters.
+     *
+     * @return the set of user parameters.
+     */
+    public Set<UserParameter> getParameters() {
+        return parameters;
+    }
+
+    /**
+     * Sets the set of user parameters.
+     *
+     * @param parameters the set of user parameters.
+     */
+    public void setParameters(Set<UserParameter> parameters) {
+        this.parameters = parameters;
+    }
+
 }

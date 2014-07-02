@@ -51,6 +51,12 @@ public class Group extends Persistent {
     private String name;
 
     /**
+     * The system group.
+     */
+    @Column(name = "C_SYSTEM")
+    private boolean system;
+        
+    /**
      * The application.
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,9 +66,27 @@ public class Group extends Persistent {
     /**
      * The roles.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "application", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Set<Role> roles = new HashSet<>();
 
+    /**
+     * Gets the system group flag.
+     *
+     * @return the system group flag.
+     */
+    public boolean isSystem() {
+        return system;
+    }
+
+    /**
+     * Sets the system group flag.
+     *
+     * @param system the system group flag.
+     */
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+    
     /**
      * Gets the name.
      *

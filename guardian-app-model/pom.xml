@@ -10,6 +10,7 @@
 	
     <artifactId>guardian-app-model</artifactId> 
     <name>guardian-app-model</name>
+	<packaging>ejb</packaging>
 	
 	<dependencies>
 		<!-- JEL -->

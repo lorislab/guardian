@@ -52,6 +52,12 @@ public class Role extends Persistent {
     private String name;
 
     /**
+     * The system role.
+     */
+    @Column(name = "C_SYSTEM")
+    private boolean system;
+
+    /**
      * The application.
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -66,6 +72,24 @@ public class Role extends Persistent {
             joinColumns = @JoinColumn(name = "GU_ROLE_GUID"),
             inverseJoinColumns = @JoinColumn(name = "GU_PERM_GUID"))
     private Set<Permission> permissions = new HashSet<>();
+
+    /**
+     * Gets the system role flag.
+     *
+     * @return the system role flag.
+     */
+    public boolean isSystem() {
+        return system;
+    }
+
+    /**
+     * Sets the system role flag.
+     *
+     * @param system the system role flag.
+     */
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
 
     /**
      * Sets the name.

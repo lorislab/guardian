@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -66,7 +67,10 @@ public class Group extends Persistent {
     /**
      * The roles.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)  
+    @JoinTable(name = "GU_GROUP_ROLE",
+            joinColumns = @JoinColumn(name = "GU_GROUP_GUID"),
+            inverseJoinColumns = @JoinColumn(name = "GU_ROLE_GUID"))    
     private Set<Role> roles = new HashSet<>();
 
     /**

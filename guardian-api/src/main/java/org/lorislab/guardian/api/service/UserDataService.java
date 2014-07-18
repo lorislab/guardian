@@ -25,6 +25,6 @@ import org.lorislab.guardian.api.model.UserData;
  */
 public interface UserDataService {
     
-    public UserData getUser(String principal) throws Exception;
+    public <T extends UserData> T getUser(String principal, Class<T> clazz) throws Exception;
    
 }

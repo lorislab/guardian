@@ -34,8 +34,8 @@ import org.lorislab.guardian.api.service.UserDataService;
 public class DefaultUserService implements UserDataService {
 
     @Override
-    public UserData getUser(String principal) throws Exception {
-        return null;
+    public <T extends UserData> T getUser(String principal, Class<T> clazz) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

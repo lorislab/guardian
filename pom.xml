@@ -15,6 +15,7 @@
 		<module>guardian-app-web</module>
 		<module>guardian-user-web</module>		
 		<module>guardian-jsf</module>
+		<module>guardian-bom</module>
 	</modules>
 	
 	<scm>

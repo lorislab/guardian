@@ -76,7 +76,7 @@ public class UserDataController implements Serializable {
     public void load() {
         if (principal != null) {
             try {
-                user = service.getUser(principal.getName());
+//                user = service.getUser(principal.getName());
             } catch (Exception ex) {
                 FacesResourceUtil.handleExceptionMessage(ex);
             }

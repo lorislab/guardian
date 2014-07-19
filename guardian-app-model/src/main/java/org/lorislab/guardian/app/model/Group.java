@@ -58,6 +58,12 @@ public class Group extends Persistent {
     private boolean system;
         
     /**
+     * The enabled flag.
+     */
+    @Column(name = "C_ENABLED")
+    private boolean enabled;
+    
+    /**
      * The application.
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -73,6 +79,24 @@ public class Group extends Persistent {
             inverseJoinColumns = @JoinColumn(name = "GU_ROLE_GUID"))    
     private Set<Role> roles = new HashSet<>();
 
+ /**
+     * Gets the enabled flag.
+     *
+     * @return the enabled flag.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Sets the enabled flag.
+     *
+     * @param enabled the enabled flag to set.
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
     /**
      * Gets the system group flag.
      *

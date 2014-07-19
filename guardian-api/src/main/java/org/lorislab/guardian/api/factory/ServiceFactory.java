@@ -40,7 +40,7 @@ public final class ServiceFactory {
         // empty constructor
     }
     
-    public static ApplicationDataService getApplicationService() {
+    public static ApplicationDataService getApplicationDataService() {
         return APP_SERVICE;
     }    
 }

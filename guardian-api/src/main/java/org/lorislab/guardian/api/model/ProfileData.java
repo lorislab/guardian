@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.api.model;
 
 import java.io.Serializable;
@@ -23,124 +22,40 @@ import java.util.Locale;
  *
  * @author Andrej Petras
  */
-public class ProfileData implements Serializable {
-  /**
-     * The UID for this class.
-     */
-    private static final long serialVersionUID = -5753794627419101991L;
-
-    /*
-     * The first name.
-     */
-    private String firstName;
-
-    /**
-     * The middle name.
-     */
-    private String middleName;
-
-    /**
-     * The last name.
-     */
-    private String lastName;
-
-    /**
-     * The email.
-     */
-    private String email;
-
-    /**
-     * The locale.
-     */
-    private Locale locale;
+public interface ProfileData extends Serializable {
 
     /**
      * Gets the first name.
      *
      * @return the first name.
      */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * Sets the first name.
-     *
-     * @param firstName the first name.
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getFirstName();
 
     /**
      * Gets the middle name.
      *
      * @return the middle name.
      */
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    /**
-     * Sets the middle name.
-     *
-     * @param middleName the middle name to set.
-     */
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
+    public String getMiddleName();
 
     /**
      * Gets the last name.
      *
      * @return the last name.
      */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Sets the last name.
-     *
-     * @param lastName the last name to set.
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public String getLastName();
 
     /**
      * Gets the email.
      *
      * @return the email.
      */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets the email.
-     *
-     * @param email the email to set.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail();
 
     /**
      * Gets the locale.
      *
      * @return the locale.
      */
-    public Locale getLocale() {
-        return locale;
-    }
-
-    /**
-     * Sets the locale.
-     *
-     * @param locale the locale to set.
-     */
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }    
+    public Locale getLocale();
 }

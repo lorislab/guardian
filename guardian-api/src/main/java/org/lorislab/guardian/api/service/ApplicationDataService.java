@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lorislab.guardian.api.model;
 
-import java.io.Serializable;
+package org.lorislab.guardian.api.service;
 
 /**
  *
  * @author Andrej Petras
  */
-public interface UserData extends Serializable {
-
-    public String getPrincipal();
-
-    public ProfileData getProfile();
-
-    public Object getConfig();
-
-    public boolean hasRole(String role);
-
-    public boolean hasAction(String action);
-
-    public boolean hasAction(String action, String context);
-
+public interface ApplicationDataService {
+    
+    public String getApplication();
 }

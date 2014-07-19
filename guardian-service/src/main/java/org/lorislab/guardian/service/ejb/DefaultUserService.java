@@ -16,12 +16,22 @@
 
 package org.lorislab.guardian.service.ejb;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.service.UserDataService;
+import org.lorislab.guardian.service.model.DefaultProfileData;
+import org.lorislab.guardian.service.model.DefaultUserData;
+import org.lorislab.guardian.user.ejb.UserService;
+import org.lorislab.guardian.user.model.User;
+import org.lorislab.guardian.user.model.UserMember;
+import org.lorislab.guardian.user.model.UserProfile;
 
 /**
  * The default user service implementation.
@@ -33,10 +43,89 @@ import org.lorislab.guardian.api.service.UserDataService;
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class DefaultUserService implements UserDataService {
 
+    @EJB
+    private UserService userService;
+    
     @Override
-    public <T extends UserData> T getUser(String principal, Class<T> clazz) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public UserData getUserData(String principal, Class clazz, String organization) throws Exception {
+        DefaultUserData result = null;
+        
+        User user = userService.getFullUser(principal);
+        if (user != null) {
+            
+            if (user.isDeleted()) {
+                throw new Exception("User [" + principal + "] was deleted!");
+            }
+            if (!user.isEnabled()) {
+                throw new Exception("User [" + principal + "] is not enabled for the application!");
+            }
+                      
+            String org = organization;
+            
+            // load profile
+            DefaultProfileData profileData = null;
+            UserProfile profile = user.getProfile();
+            if (profile != null) {
+                profileData = new DefaultProfileData();
+                profileData.setEmail(profile.getEmail());
+                profileData.setFirstName(profile.getFirstName());
+                profileData.setLastName(profile.getLastName());
+                profileData.setLocale(profile.getLocale());
+                profileData.setMiddleName(profile.getMiddleName());
+                profileData.setOrganization(profile.getOrganization());
+                
+                if (org == null) {
+                    org = profile.getOrganization();
+                }
+            }
+            
+            // load configuration
+            Object config = null;
+            
+            
+            // laod roles and actions
+            Set<String> roles = new HashSet<>();
+            Set<String> actions = new HashSet<>();
+            
+            Set<UserMember> members = user.getMembers();
+            if (members != null) {
+                
+                UserMember member = null;
+                
+                // find member
+                Iterator<UserMember> iter = members.iterator();
+                while (iter.hasNext() && member == null) {
+                    UserMember tmp = iter.next();
+                    if (tmp.getOrganization() == null && org == null
+                            || tmp.getOrganization().equals(org)) {
+                        member = tmp;                        
+                    }
+                    
+                }
+                               
+                
+                if (member != null) {
+                    
+                    // load user roles for the application
+                    Set<String> userGroups = member.getGroups();
+                    Set<String> userRoles = member.getRoles();
+                    
+                    
+                    // load roles                                    
+                                        
+                    // load actions
+                }
+            
+            }
+            
+            result = new DefaultUserData(principal, profileData, config, roles, actions);
+        }
+        return result;
     }
 
+    @Override
+    public UserData getUserData(String principal, Class clazz) throws Exception {
+        return getUserData(principal, clazz, null);
+    }
     
 }

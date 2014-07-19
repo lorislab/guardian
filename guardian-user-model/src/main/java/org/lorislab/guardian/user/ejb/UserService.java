@@ -66,6 +66,25 @@ public class UserService extends AbstractEntityServiceBean<User> {
         return delete(guid);
     }
     
+    public User getFullUser(String principal) throws ServiceException {
+        User result = null;
+        CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
+        CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
+        Root<User> root = cq.from(User.class);
+        root.fetch(User_.members);
+        root.fetch(User_.parameters);
+        root.fetch(User_.profile);
+               
+        cq.where(cb.equal(root.get(User_.principal), principal));
+        
+        TypedQuery<User> query = getBaseEAO().createTypedQuery(cq);
+        List<User> tmp = query.getResultList();        
+        if (tmp != null && !tmp.isEmpty()) {
+            result = tmp.get(0);
+        }
+        return result;
+    }
+    
     public User getUser(UserSearchCriteria criteria) throws ServiceException {
         User result = null;
         List<User> tmp = getUsers(criteria);

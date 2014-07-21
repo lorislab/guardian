@@ -61,12 +61,6 @@ public class Application extends Persistent {
     private Set<Permission> permission = new HashSet<>();
 
     /**
-     * The groups.
-     */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "application", orphanRemoval = true)
-    private Set<Group> groups = new HashSet<>();
-
-    /**
      * Gets the name.
      *
      * @return the name.
@@ -119,23 +113,5 @@ public class Application extends Persistent {
     public void setPermission(Set<Permission> permission) {
         this.permission = permission;
     }
-
-    /**
-     * Gets the groups.
-     *
-     * @return the groups.
-     */
-    public Set<Group> getGroups() {
-        return groups;
-    }
-
-    /**
-     * Sets the groups.
-     *
-     * @param groups the groups to set.
-     */
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
-    }
-
+   
 }

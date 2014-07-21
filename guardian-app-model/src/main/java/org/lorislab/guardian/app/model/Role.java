@@ -75,8 +75,8 @@ public class Role extends Persistent {
      */
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name = "GU_ROLE_PERM",
-            joinColumns = @JoinColumn(name = "GU_ROLE_GUID"),
-            inverseJoinColumns = @JoinColumn(name = "GU_PERM_GUID"))
+            joinColumns = @JoinColumn(name = "C_ROLE_GUID"),
+            inverseJoinColumns = @JoinColumn(name = "C_PERM_GUID"))
     private Set<Permission> permissions = new HashSet<>();
 
  /**

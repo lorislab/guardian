@@ -26,12 +26,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-import org.lorislab.guardian.app.model.Application_;
-import org.lorislab.guardian.app.model.Group;
-import org.lorislab.guardian.app.model.Group_;
 import org.lorislab.guardian.app.model.Role;
 import org.lorislab.guardian.app.model.Role_;
+import org.lorislab.guardian.app.model.Application_;
 import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
 
 /**
@@ -56,7 +53,7 @@ public class RoleService extends AbstractEntityServiceBean<Role> {
         return em;
     }    
     
-    public List<Role> getRolesForUser(String application, Set<String> groups, Set<String> roles) {
+    public List<Role> getRolesForUser(String application, Set<String> roles) {
         List<Role> result = null;
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
         CriteriaQuery<Role> cq = getBaseEAO().createCriteriaQuery();
@@ -64,18 +61,6 @@ public class RoleService extends AbstractEntityServiceBean<Role> {
         
         root.fetch(Role_.permissions);
         
-        Subquery<String> sq = cq.subquery(String.class);
-        Root<Group> group = sq.from(Group.class);
-        sq.select(group.join(Group_.roles).get(Role_.guid));
-        sq.where(
-            cb.and(
-                group.get(Group_.name).in(groups),
-                cb.equal(
-                    group.get(Group_.enabled), true
-                )    
-            )
-        );
-
         
          cq.where(
                  cb.and(
@@ -85,10 +70,7 @@ public class RoleService extends AbstractEntityServiceBean<Role> {
                     cb.equal(
                         root.get(Role_.enabled), true
                     ),                    
-                    cb.or(
-                        root.get(Role_.name).in(roles),
-                        cb.in(root.get(Role_.guid)).value(sq)
-                    )
+                    root.get(Role_.name).in(roles)
                  )
         );
          

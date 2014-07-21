@@ -18,7 +18,9 @@ package org.lorislab.guardian.user.model;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -59,16 +61,21 @@ public class User extends TraceablePersistent {
     private boolean deleted;
 
     /**
-     * The members.
-     */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
-    private Set<UserMember> members = new HashSet<>();
-
-    /**
      * The parameters.
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
     private Set<UserParameter> parameters = new HashSet<>();
+
+    /**
+     * The roles.
+     */
+    @ElementCollection
+    @CollectionTable(
+            name = "GU_USER_ROLES",
+            joinColumns = @JoinColumn(name = "C_USER_GUID")            
+    )
+    @Column(name = "C_ROLE")
+    private Set<String> roles;
 
     /**
      * The user profile.
@@ -76,6 +83,24 @@ public class User extends TraceablePersistent {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "C_PROFILE_GUID")
     private UserProfile profile;
+
+    /**
+     * Gets the roles.
+     *
+     * @return the roles.
+     */
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    /**
+     * Sets the roles.
+     *
+     * @param roles the roles to set.
+     */
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
 
     /**
      * The principal.
@@ -129,24 +154,6 @@ public class User extends TraceablePersistent {
      */
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    /**
-     * Gets the members.
-     *
-     * @return the members.
-     */
-    public Set<UserMember> getMembers() {
-        return members;
-    }
-
-    /**
-     * Sets the members.
-     *
-     * @param members the members to set.
-     */
-    public void setMembers(Set<UserMember> members) {
-        this.members = members;
     }
 
     /**

@@ -71,7 +71,6 @@ public class UserService extends AbstractEntityServiceBean<User> {
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
         CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
         Root<User> root = cq.from(User.class);
-        root.fetch(User_.members);
         root.fetch(User_.parameters);
         root.fetch(User_.profile);
                
@@ -105,11 +104,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (criteria != null) {
-            
-            if (criteria.isFetchMember()) {
-                root.fetch(User_.members);
-            }
-            
+                     
             if (criteria.isFetchParameter()) {
                 root.fetch(User_.parameters);
             }            

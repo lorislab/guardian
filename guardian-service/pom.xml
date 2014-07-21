@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
     
-    <parent>
-        <groupId>org.lorislab.guardian</groupId>
-        <artifactId>guardian</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+	<parent>
+		<groupId>org.lorislab.guardian</groupId>
+		<artifactId>guardian</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
-    </parent>
+	</parent>
 	
-    <artifactId>guardian-service</artifactId> 
-    <name>guardian-service</name>
+	<artifactId>guardian-service</artifactId> 
+	<name>guardian-service</name>
 	<packaging>ejb</packaging>
 	
 	<dependencies>
@@ -32,7 +32,13 @@
 			<scope>provided</scope>
 			<type>ejb-client</type>
 		</dependency>
-						
+			
+		<!-- TRANSFORMER -->
+		<dependency>
+			<groupId>org.lorislab.transformer</groupId>
+			<artifactId>transformer-api</artifactId>
+		</dependency>								
+			
 		<!-- EJB -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>

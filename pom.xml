@@ -47,6 +47,15 @@
 	<!-- Dependency management -->
 	<dependencyManagement>
 		<dependencies>
+			<!-- TRANSFORMER -->
+			<dependency>
+				<groupId>org.lorislab.transformer</groupId>
+				<artifactId>transformer-bom</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>import</scope>				
+			</dependency>
+						
 			<!-- JEL -->
 			<dependency>
 				<groupId>org.lorislab.jel</groupId>

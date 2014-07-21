@@ -68,31 +68,7 @@ public class UserProfile extends TraceablePersistent {
      */
     @Column(name = "C_LANG")
     private Locale locale;
-
-    /**
-     * The organisation.
-     */
-    @Column(name = "C_ORG")
-    private String organization;
-    
- /**
-     * Gets the organisation.
-     *
-     * @return the organisation.
-     */
-    public String getOrganization() {
-        return organization;
-    }
-
-    /**
-     * Sets the organisation.
-     *
-     * @param organization the organisation to set.
-     */
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-    
+      
     /**
      * Gets the user.
      *

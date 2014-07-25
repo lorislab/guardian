@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.lorislab.guardian.user.criteria;
+package org.lorislab.guardian.api.criteria;
 
+import java.io.Serializable;
 import java.util.Set;
-import org.lorislab.jel.base.criteria.AbstractSearchCriteria;
 
 /**
- * The user search criteria.
- * 
+ *
  * @author Andrej Petras
  */
-public class UserSearchCriteria extends AbstractSearchCriteria {
+public class UserDataSearchCriteria implements Serializable {
     
-    private static final long serialVersionUID = 1444214779226441960L;
+    private static final long serialVersionUID = 4958264089912805080L;
 
     private String guid;
     
@@ -37,24 +36,9 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
     private Boolean enabled;
     
     private Boolean deleted;
-    
-    private boolean fetchProfile;
-    
-    @Override
-    public void reset() {
-        guid = null;
-        principal = null;
-        fetchProfile = false;
-        deleted = null;
-        enabled = null;
-        guids = null;
-    }
 
-    @Override
-    public boolean isEmpty() {
-        return isEmpty(guid, principal, enabled, deleted, guids);
-    }
-
+    private boolean fetchConfig;
+    
     public Set<String> getGuids() {
         return guids;
     }
@@ -95,12 +79,12 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
         this.principal = principal;
     }
 
-    public boolean isFetchProfile() {
-        return fetchProfile;
+    public boolean isFetchConfig() {
+        return fetchConfig;
     }
 
-    public void setFetchProfile(boolean fetchProfile) {
-        this.fetchProfile = fetchProfile;
+    public void setFetchConfig(boolean fetchConfig) {
+        this.fetchConfig = fetchConfig;
     }
-        
+    
 }

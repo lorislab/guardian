@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lorislab.guardian.jsf.view.actions;
+package org.lorislab.guardian.web.view.actions;
 
-import org.lorislab.guardian.jsf.view.ActionContextViewController;
+import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.AbstractViewControllerAction;
 
 

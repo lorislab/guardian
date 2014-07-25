@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Andrej Petras.
+ * Copyright 2014 lorislab.org.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,17 @@
 
 package org.lorislab.guardian.api.service;
 
-import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
+import java.util.Set;
 import org.lorislab.guardian.api.model.UserData;
 
 /**
- * The user service.
- * 
+ *
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
+public interface UserDataFactoryService<T extends UserData> {
     
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
+    public T createUserData(String principal);
     
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
-
+    public T createUserData(String principal, Set<String> roles, Set<String> actions);
+    
 }

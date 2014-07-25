@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.lorislab.guardian.api.service;
-
-import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
-import org.lorislab.guardian.api.model.UserData;
+package org.lorislab.guardian.web.view;
 
 /**
- * The user service.
- * 
+ * The action context view controller interface.
+ *
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
-    
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
-    
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
+public interface ActionContextViewController {
 
+    /**
+     * Returns {@code true} if the user has an action for the context.
+     *
+     * @param action the action.
+     * @param context the context.
+     * @return {@code true} if the user has an action for the context.
+     */
+    public boolean hasUserAction(Enum action, Enum context);
 }

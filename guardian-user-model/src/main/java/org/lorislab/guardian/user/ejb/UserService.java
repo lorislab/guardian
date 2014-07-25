@@ -71,10 +71,15 @@ public class UserService extends AbstractEntityServiceBean<User> {
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
         CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
         Root<User> root = cq.from(User.class);
-        root.fetch(User_.parameters);
         root.fetch(User_.profile);
-               
-        cq.where(cb.equal(root.get(User_.principal), principal));
+        root.fetch(User_.roles);
+                        
+        cq.where(
+                cb.and(
+                    cb.equal(root.get(User_.principal), principal),
+                    cb.equal(root.get(User_.deleted), false)
+                )
+        );
         
         TypedQuery<User> query = getBaseEAO().createTypedQuery(cq);
         List<User> tmp = query.getResultList();        
@@ -104,11 +109,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (criteria != null) {
-                     
-            if (criteria.isFetchParameter()) {
-                root.fetch(User_.parameters);
-            }            
-            
+                                         
             if (criteria.isFetchProfile()) {
                 root.fetch(User_.profile);
             }
@@ -119,7 +120,19 @@ public class UserService extends AbstractEntityServiceBean<User> {
             
             if (criteria.getGuid() != null) {
                 predicates.add(cb.equal(root.get(User_.guid), criteria.getGuid()));
-            }            
+            }   
+            
+            if (criteria.getGuids() != null) {
+                predicates.add(root.get(User_.guid).in(criteria.getGuids()));
+            }
+            
+            if (criteria.isEnabled() != null) {
+                predicates.add(cb.equal(root.get(User_.enabled), criteria.isEnabled()));
+            }   
+            
+            if (criteria.isDeleted() != null) {
+                predicates.add(cb.equal(root.get(User_.deleted), criteria.isDeleted()));
+            }             
         }
         
         if (!predicates.isEmpty()) {

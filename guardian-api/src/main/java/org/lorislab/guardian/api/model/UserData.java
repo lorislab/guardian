@@ -13,26 +13,75 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.lorislab.guardian.api.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  *
  * @author Andrej Petras
  */
-public interface UserData extends Serializable {
+public abstract class UserData<P, C extends UserDataConfig> implements Serializable {
+    
+    private static final long serialVersionUID = -5900995309959406528L;
+    
+    private String principal;    
+    
+    private C config;
 
-    public String getPrincipal();
+    private P user;
+        
+    private Set<String> roles;
+    
+    private Set<String> actions;
+    
+    public UserData(String principal, Set<String> roles, Set<String> actions) {
+        this.principal = principal;
+        this.roles = roles;
+        this.actions = actions;
+    }
+                
+    public String getPrincipal() {
+        return principal;
+    }
 
-    public ProfileData getProfile();
+    public P getUser() {
+        return user;
+    }
 
-    public Object getConfig();
+    public void setUser(P user) {
+        this.user = user;
+    }
+  
+    public void setConfig(C config) {
+        this.config = config;
+    }
+    
+    public C getConfig() {
+        return config;
+    }
+            
+    public boolean hasRole(String role) {
+        if (roles != null) {
+            return roles.contains(role);
+        }
+        return false;
+    }
 
-    public boolean hasRole(String role);
+    public boolean hasAction(Enum action) {
+        return hasAction(action, null);
+    }
 
-    public boolean hasAction(String action);
-
-    public boolean hasAction(String action, String context);
-
+    public boolean hasAction(Enum action, Enum context) {
+        if (actions != null && action != null) {
+            String tmp = null;
+            if (context != null) {
+                tmp = context.name();
+            }
+            return actions.contains(action.name() + tmp);
+        }
+        return false;
+    }   
 }

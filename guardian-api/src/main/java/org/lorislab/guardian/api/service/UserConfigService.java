@@ -17,18 +17,17 @@
 package org.lorislab.guardian.api.service;
 
 import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
-import org.lorislab.guardian.api.model.UserData;
+import java.util.Set;
 
 /**
- * The user service.
- * 
+ *
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
+public interface UserConfigService<T> {
     
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
+    public T getUserConfig(String user) throws Exception;
     
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
-
+    public List<T> getUserConfigs(Set<String> users) throws Exception;
+    
+    public T saveUserConfig(T data) throws Exception;
 }

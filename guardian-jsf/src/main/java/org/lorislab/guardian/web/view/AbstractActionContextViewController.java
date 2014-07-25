@@ -14,21 +14,29 @@
  * limitations under the License.
  */
 
-package org.lorislab.guardian.api.service;
+package org.lorislab.guardian.web.view;
 
-import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
+import java.io.Serializable;
+import javax.inject.Inject;
 import org.lorislab.guardian.api.model.UserData;
 
 /**
- * The user service.
- * 
+ *
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
-    
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
-    
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
+public abstract class AbstractActionContextViewController implements ActionContextViewController, Serializable {
+   
+    private static final long serialVersionUID = 6385247461490018495L;
 
+    @Inject
+    protected UserData userData;
+    
+    @Override
+    public boolean hasUserAction(Enum action, Enum context) {
+        if (userData != null) {
+            return userData.hasAction(action, context);
+        }
+        return false;
+    }
+    
 }

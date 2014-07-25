@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package org.lorislab.guardian.api.service;
+package org.lorislab.guardian.service.model;
 
-import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
+import java.util.Set;
 import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserDataConfig;
+import org.lorislab.guardian.user.model.User;
 
 /**
- * The user service.
- * 
+ *
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
+public abstract class AbstractUserData<C extends UserDataConfig> extends UserData<User, C> {
     
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
+    private static final long serialVersionUID = -3048282351131237445L;
+   
+    public AbstractUserData(String principal, Set<String> roles, Set<String> actions) {
+        super(principal, roles, actions);
+    }
     
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
-
 }

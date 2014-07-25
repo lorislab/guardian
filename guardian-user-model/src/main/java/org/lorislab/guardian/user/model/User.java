@@ -15,16 +15,13 @@
  */
 package org.lorislab.guardian.user.model;
 
-import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.lorislab.jel.jpa.model.TraceablePersistent;
@@ -61,15 +58,9 @@ public class User extends TraceablePersistent {
     private boolean deleted;
 
     /**
-     * The parameters.
-     */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
-    private Set<UserParameter> parameters = new HashSet<>();
-
-    /**
      * The roles.
      */
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "GU_USER_ROLES",
             joinColumns = @JoinColumn(name = "C_USER_GUID")            
@@ -172,24 +163,6 @@ public class User extends TraceablePersistent {
      */
     public void setProfile(UserProfile profile) {
         this.profile = profile;
-    }
-
-    /**
-     * Gets the set of user parameters.
-     *
-     * @return the set of user parameters.
-     */
-    public Set<UserParameter> getParameters() {
-        return parameters;
-    }
-
-    /**
-     * Sets the set of user parameters.
-     *
-     * @param parameters the set of user parameters.
-     */
-    public void setParameters(Set<UserParameter> parameters) {
-        this.parameters = parameters;
     }
 
 }

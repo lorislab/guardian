@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lorislab.guardian.jsf.view;
+
+package org.lorislab.guardian.api.model;
 
 /**
- * The action context view controller interface.
  *
  * @author Andrej Petras
  */
-public interface ActionContextViewController {
-
-    /**
-     * Returns {@code true} if the user has an action for the context.
-     *
-     * @param action the action.
-     * @param context the context.
-     * @return {@code true} if the user has an action for the context.
-     */
-    public boolean hasUserAction(Enum action, Enum context);
+public interface UserDataConfig {
+    
+    public String getUser();
 }

@@ -12,10 +12,33 @@
     <name>guardian-jsf</name>
 	
 	<dependencies>
+		<dependency>
+			<groupId>org.lorislab.guardian</groupId>
+			<artifactId>guardian-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- CDI -->			
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>			
+			<scope>provided</scope>
+		</dependency>		
 		<!-- JEL -->
 		<dependency>
 			<groupId>org.lorislab.jel</groupId>
 			<artifactId>jel-jsf</artifactId>
 		</dependency>
+		<!-- EJB -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- JSF -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>		 		
 	</dependencies>
 </project>

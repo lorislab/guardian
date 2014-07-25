@@ -13,6 +13,12 @@
 	<packaging>ejb</packaging>
 	
 	<dependencies>
+		<dependency>
+			<groupId>org.lorislab.guardian</groupId>
+			<artifactId>guardian-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+				
 		<!-- JEL -->
 		<dependency>
 			<groupId>org.lorislab.jel</groupId>

@@ -15,40 +15,35 @@
  */
 package org.lorislab.guardian.service.ejb;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
 import org.lorislab.guardian.api.factory.ServiceFactory;
 import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserDataConfig;
 import org.lorislab.guardian.api.service.ApplicationDataService;
+import org.lorislab.guardian.api.service.UserConfigService;
+import org.lorislab.guardian.api.service.UserDataFactoryService;
 import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.guardian.app.ejb.RoleService;
 import org.lorislab.guardian.app.model.Permission;
 import org.lorislab.guardian.app.model.Role;
-import org.lorislab.guardian.service.model.DefaultProfileData;
-import org.lorislab.guardian.service.model.DefaultUserData;
+import org.lorislab.guardian.service.model.AbstractUserData;
+import org.lorislab.guardian.user.criteria.UserSearchCriteria;
 import org.lorislab.guardian.user.ejb.UserService;
 import org.lorislab.guardian.user.model.User;
-import org.lorislab.guardian.user.model.UserParameter;
-import org.lorislab.guardian.user.model.UserProfile;
-import org.lorislab.transformer.api.Transformer;
 
 /**
  * The default user service implementation.
  *
  * @author Andrej Petras
  */
-@Stateless
-@Local(UserDataService.class)
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class DefaultUserService implements UserDataService {
+public abstract class AbstractUserDataService<U extends AbstractUserData, C extends UserDataConfig> implements UserDataService<U> {
 
     @EJB
     private UserService userService;
@@ -56,42 +51,63 @@ public class DefaultUserService implements UserDataService {
     @EJB
     private RoleService roleService;
 
+    @EJB
+    private UserConfigService<C> configService;
+
     @Override
-    public UserData getUserData(String principal, Class clazz) throws Exception {
-        DefaultUserData result = null;
+    public List<U> findUserData(UserDataSearchCriteria criteria) throws Exception {
+        List<U> result = new ArrayList<>();
+
+        UserSearchCriteria userCriteria = new UserSearchCriteria();
+        userCriteria.setFetchProfile(true);
+        userCriteria.setDeleted(criteria.isDeleted());
+        userCriteria.setEnabled(criteria.isEnabled());
+        userCriteria.setGuid(criteria.getGuid());
+        userCriteria.setGuids(criteria.getGuids());
+        userCriteria.setPrincipal(criteria.getPrincipal());        
+        List<User> users = userService.getUsers(userCriteria);
+        
+        
+        if (users != null) {
+
+            UserDataFactoryService<U> factory = ServiceFactory.getUserDataFactoryService();
+            
+            Map<String, U> tmp = new HashMap<>();
+            for (User user : users) {
+                U item = factory.createUserData(user.getPrincipal());
+                item.setUser(user);
+                tmp.put(user.getGuid(), item);
+                result.add(item);
+            }
+                
+            if (criteria.isFetchConfig()) {
+                List<C> configs = configService.getUserConfigs(tmp.keySet());
+                if (configs != null) {
+                    for (C config : configs) {
+                        U user = tmp.get(config.getUser());
+                        if (user != null) {                            
+                            user.setConfig(config);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public U getUserData(String principal, Class clazz) throws Exception {
+        U result = null;
 
         User user = userService.getFullUser(principal);
         if (user != null) {
 
-            if (user.isDeleted()) {
-                throw new Exception("User [" + principal + "] was deleted!");
-            }
             if (!user.isEnabled()) {
                 throw new Exception("User [" + principal + "] is not enabled for the application!");
             }
 
-            // load profile
-            DefaultProfileData profileData = null;
-            UserProfile profile = user.getProfile();
-            if (profile != null) {
-                profileData = new DefaultProfileData();
-                profileData.setEmail(profile.getEmail());
-                profileData.setFirstName(profile.getFirstName());
-                profileData.setLastName(profile.getLastName());
-                profileData.setLocale(profile.getLocale());
-                profileData.setMiddleName(profile.getMiddleName());
-            }
-
             // load configuration
-            Object config = null;
-            Set<UserParameter> params = user.getParameters();
-            if (params != null && clazz != null) {
-                Map<String, String> map = new HashMap();
-                for (UserParameter param : params) {
-                    map.put(param.getName(), param.getGuid());
-                }
-                config = Transformer.transform(map, clazz);
-            }
+            C config = configService.getUserConfig(user.getGuid());
 
             // laod roles and actions
             Set<String> roles = new HashSet<>();
@@ -125,7 +141,10 @@ public class DefaultUserService implements UserDataService {
 
             }
 
-            result = new DefaultUserData(principal, profileData, config, roles, actions);
+            UserDataFactoryService<U> factory = ServiceFactory.getUserDataFactoryService();
+            result = factory.createUserData(principal, roles, actions);
+            result.setConfig(config);
+            result.setUser(user);
         }
         return result;
     }

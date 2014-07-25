@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Andrej Petras.
+ * Copyright 2014 lorislab.org.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,72 +14,53 @@
  * limitations under the License.
  */
 
-package org.lorislab.guardian.user.web.controller;
+package org.lorislab.guardian.web.user.controller;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.service.UserDataService;
-import org.lorislab.jel.jsf.util.FacesResourceUtil;
 
 /**
- * The user data controller.
- * 
+ *
  * @author Andrej Petras
  */
-@Named("userVC")
+@Named("userC")
 @SessionScoped
-public class UserDataController implements Serializable {
+public class UserController implements Serializable {
     
-    /**
-     * The UID for this class.
-     */
-    private static final long serialVersionUID = -4460344406458043865L;
+    private static final long serialVersionUID = 9212806894953594995L;
     
-    /**
-     * The user data service.
-     */
+    private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
+    
     @EJB
     private UserDataService service;
     
-    /**
-     * The principal
-     */
-    @Inject
-    private Principal principal;
-    
-    /**
-     * The user data model.
-     */
-    private UserData user;
-    
-    /**
-     * Gets the user data model.
-     * @return 
-     */
+    private UserData data;
+
     @Produces
-    public UserData getUserData() {
-        if (user == null) {
+    public UserData getUser() {
+        if (data == null) {
             load();
         }
-        return user;
+        return data;
     }
     
-    /**
-     * Loads the user data model.
-     */
-    public void load() {
-        if (principal != null) {
-            try {
-//                user = service.getUser(principal.getName());
-            } catch (Exception ex) {
-                FacesResourceUtil.handleExceptionMessage(ex);
+    private void load() {
+        try {
+            Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+            if (principal != null) {            
+                data = service.getUserData(principal.getName(), null);                
             }
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error loading the user data!", ex);
         }
     }
 }

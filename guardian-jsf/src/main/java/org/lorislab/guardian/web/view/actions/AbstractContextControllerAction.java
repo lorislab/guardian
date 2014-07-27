@@ -58,7 +58,7 @@ public abstract class AbstractContextControllerAction<T extends ActionContextVie
      * @param action the action.
      * @param context the context.
      */
-    public AbstractContextControllerAction(T parent, Enum action, Enum context) {
+    public AbstractContextControllerAction(T parent, Enum context, Enum action) {
         super(parent);
         this.action = action;
         this.context = context;
@@ -73,7 +73,7 @@ public abstract class AbstractContextControllerAction<T extends ActionContextVie
      */
     @Override
     public boolean isEnabled() {
-        return getParent().hasUserAction(action, context);
+        return getParent().hasUserAction(context, action);
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class AbstractContextControllerAction<T extends ActionContextVie
      */
     @Override
     public boolean isAvailable() {
-        return getParent().hasUserAction(action, context);
+        return getParent().hasUserAction(context, action);
     }
 
 }

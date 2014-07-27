@@ -57,7 +57,7 @@ public class UserController implements Serializable {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {            
-                data = service.getUserData(principal.getName(), null);                
+                data = service.getUserData(principal.getName());                
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error loading the user data!", ex);

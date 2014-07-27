@@ -23,12 +23,14 @@ import org.lorislab.guardian.api.model.UserData;
 /**
  * The user service.
  * 
+ * @param <A> the user data type.
+ * 
  * @author Andrej Petras
  */
 public interface UserDataService<A extends UserData> {
     
     public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
     
-    public A getUserData(String principal, Class<A> clazz) throws Exception;
+    public A getUserData(String principal) throws Exception;
 
 }

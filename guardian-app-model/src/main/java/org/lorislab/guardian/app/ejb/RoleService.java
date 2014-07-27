@@ -23,8 +23,10 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.lorislab.guardian.app.model.Role;
 import org.lorislab.guardian.app.model.Role_;
@@ -60,20 +62,19 @@ public class RoleService extends AbstractEntityServiceBean<Role> {
         Root<Role> root = cq.from(Role.class);        
         
         root.fetch(Role_.permissions);
-        
+        cq.distinct(true);
         
          cq.where(
                  cb.and(
-                    cb.equal(
-                        root.join(Role_.application).get(Application_.name), application
-                    ),
-                    cb.equal(
-                        root.get(Role_.enabled), true
-                    ),                    
+                    cb.equal(root.join(Role_.application, JoinType.LEFT).get(Application_.name), application),
+                    cb.equal(root.get(Role_.enabled), true),                    
                     root.get(Role_.name).in(roles)
                  )
         );
          
+        TypedQuery<Role> query = getBaseEAO().createTypedQuery(cq);
+        result = query.getResultList();        
+        
         return result;
     }
 }

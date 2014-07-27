@@ -70,17 +70,17 @@ public abstract class UserData<P, C extends UserDataConfig> implements Serializa
         return false;
     }
 
-    public boolean hasAction(Enum action) {
-        return hasAction(action, null);
+    public boolean hasAction(Enum context) {
+        return hasAction(context, null);
     }
 
-    public boolean hasAction(Enum action, Enum context) {
-        if (actions != null && action != null) {
+    public boolean hasAction(Enum context, Enum action) {
+        if (actions != null && context != null) {
             String tmp = null;
-            if (context != null) {
-                tmp = context.name();
+            if (action != null) {
+                tmp = action.name();
             }
-            return actions.contains(action.name() + tmp);
+            return actions.contains(context.name() + tmp);
         }
         return false;
     }   

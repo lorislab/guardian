@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.ejb.EJB;
 import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
 import org.lorislab.guardian.api.factory.ServiceFactory;
-import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserDataConfig;
 import org.lorislab.guardian.api.service.ApplicationDataService;
 import org.lorislab.guardian.api.service.UserConfigService;
@@ -96,7 +95,7 @@ public abstract class AbstractUserDataService<U extends AbstractUserData, C exte
     }
 
     @Override
-    public U getUserData(String principal, Class clazz) throws Exception {
+    public U getUserData(String principal) throws Exception {
         U result = null;
 
         User user = userService.getFullUser(principal);
@@ -127,7 +126,7 @@ public abstract class AbstractUserDataService<U extends AbstractUserData, C exte
                 if (tmp != null) {
                     for (Role role : tmp) {
                         roles.add(role.getName());
-
+                        
                         Set<Permission> permissions = role.getPermissions();
                         if (permissions != null) {
                             for (Permission perm : permissions) {

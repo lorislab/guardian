@@ -32,9 +32,9 @@ public abstract class AbstractActionContextViewController implements ActionConte
     protected UserData userData;
     
     @Override
-    public boolean hasUserAction(Enum action, Enum context) {
+    public boolean hasUserAction(Enum context, Enum action) {
         if (userData != null) {
-            return userData.hasAction(action, context);
+            return userData.hasAction(context, action);
         }
         return false;
     }

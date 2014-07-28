@@ -18,7 +18,6 @@ package org.lorislab.guardian.web.view.actions;
 import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.AbstractViewControllerAction;
 
-
 /**
  * The abstract view controller action.
  *
@@ -66,9 +65,9 @@ public abstract class AbstractContextControllerAction<T extends ActionContextVie
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * Check if the user has action and context.
-     * 
+     *
      * @return returns {@code true} if the user has action and context enabled.
      */
     @Override
@@ -78,14 +77,32 @@ public abstract class AbstractContextControllerAction<T extends ActionContextVie
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * Check if the user has action and context.
-     * 
+     *
      * @return returns {@code true} if the user has action and context enabled.
      */
     @Override
     public boolean isAvailable() {
         return getParent().hasUserAction(context, action);
+    }
+
+    /**
+     * Gets the action.
+     *
+     * @return the action.
+     */
+    public Enum getAction() {
+        return action;
+    }
+
+    /**
+     * Gets the action context.
+     *
+     * @return the action context.
+     */
+    public Enum getContext() {
+        return context;
     }
 
 }

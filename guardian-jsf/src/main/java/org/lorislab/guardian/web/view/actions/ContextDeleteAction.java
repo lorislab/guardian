@@ -16,14 +16,14 @@
 
 package org.lorislab.guardian.web.view.actions;
 
-import org.lorislab.guardian.web.view.ContextSaveViewController;
-import org.lorislab.guardian.web.view.actions.AbstractContextControllerAction;
+import org.lorislab.guardian.web.view.ContextDeleteViewController;
 
 /**
  *
  * @author Andrej Petras
+ * @param <T>
  */
-public class ContextDeleteAction<T extends ContextSaveViewController> extends AbstractContextControllerAction<T> {
+public class ContextDeleteAction<T extends ContextDeleteViewController> extends AbstractContextControllerAction<T> {
     
     private static final long serialVersionUID = -401771961900364439L;
 
@@ -33,6 +33,6 @@ public class ContextDeleteAction<T extends ContextSaveViewController> extends Ab
     
     @Override
     protected Object doExecute() throws Exception {
-        return getParent().save();
+        return getParent().delete();
     }       
 }

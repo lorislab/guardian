@@ -24,7 +24,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.lorislab.jel.jpa.model.Persistent;
@@ -62,13 +61,6 @@ public class Role extends Persistent {
      */
     @Column(name = "C_ENABLED")
     private boolean enabled;
-    
-    /**
-     * The application.
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "C_APP_GUID")
-    private Application application;
 
     /**
      * The permissions.
@@ -132,25 +124,7 @@ public class Role extends Persistent {
     public void setName(String name) {
         this.name = name;
     }
-
-    /**
-     * Gets the application.
-     *
-     * @return the application.
-     */
-    public Application getApplication() {
-        return application;
-    }
-
-    /**
-     * Sets the application.
-     *
-     * @param application the application to set.
-     */
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
+  
     /**
      * Gets the permissions.
      *

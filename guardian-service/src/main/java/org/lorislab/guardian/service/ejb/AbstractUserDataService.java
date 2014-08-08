@@ -25,7 +25,6 @@ import javax.ejb.EJB;
 import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
 import org.lorislab.guardian.api.factory.ServiceFactory;
 import org.lorislab.guardian.api.model.UserDataConfig;
-import org.lorislab.guardian.api.service.ApplicationDataService;
 import org.lorislab.guardian.api.service.UserConfigService;
 import org.lorislab.guardian.api.service.UserDataFactoryService;
 import org.lorislab.guardian.api.service.UserDataService;
@@ -116,17 +115,12 @@ public abstract class AbstractUserDataService<U extends AbstractUserData, C exte
 
             if (userRoles != null) {
 
-                ApplicationDataService appService = ServiceFactory.getApplicationDataService();
-                if (appService == null) {
-                    throw new Exception("Missing application data service implementation!");
-                }
-
-                List<Role> tmp = roleService.getRolesForUser(appService.getApplication(), userRoles);
+                List<Role> tmp = roleService.getRolesForUser(userRoles);
 
                 if (tmp != null) {
                     for (Role role : tmp) {
                         roles.add(role.getName());
-                        
+                    
                         Set<Permission> permissions = role.getPermissions();
                         if (permissions != null) {
                             for (Permission perm : permissions) {

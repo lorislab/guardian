@@ -17,7 +17,6 @@
 package org.lorislab.guardian.web.view.actions;
 
 import org.lorislab.guardian.web.view.ContextCloseViewController;
-import org.lorislab.guardian.web.view.actions.AbstractContextControllerAction;
 
 /**
  *

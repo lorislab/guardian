@@ -18,7 +18,6 @@ package org.lorislab.guardian.api.factory;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
-import org.lorislab.guardian.api.service.ApplicationDataService;
 import org.lorislab.guardian.api.service.UserDataFactoryService;
 
 /**
@@ -27,17 +26,9 @@ import org.lorislab.guardian.api.service.UserDataFactoryService;
  */
 public final class ServiceFactory {
     
-    private static ApplicationDataService APP_SERVICE;
-    
     private static UserDataFactoryService USER_DATA_FACTORY_SERVICE;
     
-    static {       
-        ServiceLoader<ApplicationDataService> loader = ServiceLoader.load(ApplicationDataService.class);
-        Iterator<ApplicationDataService> iter = loader.iterator();
-        if (iter.hasNext()) {
-            APP_SERVICE = iter.next();
-        }        
-        
+    static {               
         ServiceLoader<UserDataFactoryService> loader2 = ServiceLoader.load(UserDataFactoryService.class);
         Iterator<UserDataFactoryService> iter2 = loader2.iterator();
         if (iter2.hasNext()) {
@@ -52,8 +43,5 @@ public final class ServiceFactory {
     public static UserDataFactoryService getUserDataFactoryService() {
         return USER_DATA_FACTORY_SERVICE;
     }    
-    
-    public static ApplicationDataService getApplicationDataService() {
-        return APP_SERVICE;
-    }    
+       
 }

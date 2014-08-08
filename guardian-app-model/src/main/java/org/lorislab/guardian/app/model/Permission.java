@@ -15,11 +15,12 @@
  */
 package org.lorislab.guardian.app.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.lorislab.jel.jpa.model.Persistent;
@@ -63,13 +64,30 @@ public class Permission extends Persistent {
      */
     @Column(name = "C_SYSTEM")
     private boolean system;
-    
+
     /**
-     * The application.
+     * The set of roles.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "C_APP_GUID")
-    private Application application;
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    private Set<Role> roles = new HashSet<>();
+
+    /**
+     * Gets the set of roles.
+     *
+     * @return the set of roles.
+     */
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * Sets the set of roles.
+     *
+     * @param roles the set of roles.
+     */
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     /**
      * Gets the system permission flag.
@@ -88,7 +106,7 @@ public class Permission extends Persistent {
     public void setSystem(boolean system) {
         this.system = system;
     }
-    
+
     /**
      * Gets the context.
      *
@@ -141,24 +159,6 @@ public class Permission extends Persistent {
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    /**
-     * Gets the application.
-     *
-     * @return the application.
-     */
-    public Application getApplication() {
-        return application;
-    }
-
-    /**
-     * Sets the application.
-     *
-     * @param application the application to set.
-     */
-    public void setApplication(Application application) {
-        this.application = application;
     }
 
 }

@@ -39,17 +39,17 @@
 				<groupId>org.lorislab.guardian</groupId>
 				<artifactId>guardian-service</artifactId> 
 				<version>${project.version}</version>
+			</dependency>				
+			<dependency>
+				<groupId>org.lorislab.guardian</groupId>
+				<artifactId>guardian-user-api</artifactId> 
+				<version>${project.version}</version>
 			</dependency>	
 			<dependency>
 				<groupId>org.lorislab.guardian</groupId>
-				<artifactId>guardian-app-web</artifactId> 
+				<artifactId>guardian-user-ads</artifactId> 
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.lorislab.guardian</groupId>
-				<artifactId>guardian-user-web</artifactId> 
-				<version>${project.version}</version>
-			</dependency>			
+			</dependency>											
 		</dependencies>
 	</dependencyManagement>
 	

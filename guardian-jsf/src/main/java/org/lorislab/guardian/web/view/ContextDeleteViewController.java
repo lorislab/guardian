@@ -16,7 +16,6 @@
 
 package org.lorislab.guardian.web.view;
 
-import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.DeleteViewController;
 
 /**

@@ -14,6 +14,8 @@
 		<module>guardian-user-model</module>	
 		<module>guardian-jsf</module>
 		<module>guardian-bom</module>
+		<module>guardian-user-api</module>
+		<module>guardian-user-ads</module>
 	</modules>
 	
 	<scm>
@@ -63,6 +65,15 @@
 				<scope>import</scope>				
 			</dependency>	
 			
+			<!-- BARN -->
+			<dependency>
+				<groupId>org.lorislab.barn</groupId>
+				<artifactId>barn-bom</artifactId>
+				<version>0.0.3-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>import</scope>				
+			</dependency>
+						
 			<!-- EJB/Persistence libraries -->
 			<dependency>
 				<groupId>org.jboss.spec</groupId>

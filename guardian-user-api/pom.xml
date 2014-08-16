@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.lorislab.guardian</groupId>
+        <artifactId>guardian</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+    </parent>
+	
+    <artifactId>guardian-user-api</artifactId> 
+    <name>guardian-user-api</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.lorislab.jel</groupId>
+			<artifactId>jel-base</artifactId>
+		</dependency>		
+	</dependencies>
+</project>

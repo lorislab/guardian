@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.view;
 
 /**
+ * The context entity view controller.
  *
  * @author Andrej Petras
+ *
+ * @see org.lorislab.guardian.web.view.ContextCloseViewController
+ * @see org.lorislab.guardian.web.view.ContextCreateViewController
+ * @see org.lorislab.guardian.web.view.ContextOpenViewController
+ * @see org.lorislab.guardian.web.view.ContextSaveViewController
+ * @see org.lorislab.guardian.web.view.ContextDeleteViewController
  */
 public interface ContextEntityViewController extends ContextCreateViewController, ContextOpenViewController, ContextSaveViewController, ContextDeleteViewController, ContextCloseViewController {
-    
+
 }

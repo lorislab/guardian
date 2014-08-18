@@ -13,33 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.view.actions;
 
 import org.lorislab.guardian.web.view.ActionContextViewController;
-import org.lorislab.guardian.web.view.actions.AbstractContextControllerAction;
 
 /**
+ * The context menu action.
+ *
+ * @param <T> the context menu view controller type.
  *
  * @author Andrej Petras
  */
 public class ContextMenuAction<T extends ActionContextViewController> extends AbstractContextControllerAction<T> {
-    
-    private static final long serialVersionUID = -2570364728504344270L;
 
+    /**
+     * The UID for this class.
+     */
+    private static final long serialVersionUID = -2570364728504344270L;
+    /**
+     * The navigation path.
+     */
     private String navigation;
-    
+
+    /**
+     * The default constructor.
+     *
+     * @param parent the parent view controller.
+     * @param context the context.
+     * @param action the action.
+     */
     public ContextMenuAction(T parent, Enum context, Enum action) {
         this(parent, context, action, null);
     }
-    
+
+    /**
+     * The default constructor.
+     *
+     * @param parent the parent view controller.
+     * @param context the context.
+     * @param action the action.
+     * @param navigation the navigation path.
+     */
     public ContextMenuAction(T parent, Enum context, Enum action, String navigation) {
         super(parent, context, action);
         this.navigation = navigation;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public Object execute() {
         return navigation;
-    }       
+    }
 }

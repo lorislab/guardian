@@ -13,26 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.view.actions;
 
 import org.lorislab.guardian.web.view.AbstractContextSearchViewController;
 
 /**
+ * The context search action.
+ *
+ * @param <T> the context search view controller type.
  *
  * @author Andrej Petras
  */
 public class ContextSearchAction<T extends AbstractContextSearchViewController> extends AbstractContextControllerAction<T> {
-    
+
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = -4319705802397321547L;
 
+    /**
+     * The default constructor.
+     *
+     * @param parent the parent view controller.
+     * @param context the context.
+     * @param action the action.
+     */
     public ContextSearchAction(T parent, Enum context, Enum action) {
         super(parent, context, action);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     protected Object doExecute() throws Exception {
         getParent().search();
         return null;
-    }    
+    }
 }

@@ -16,11 +16,11 @@
 
 package org.lorislab.guardian.web.view;
 
-import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.CloseViewController;
 
 /**
- *
+ * The context close view controller.
+ * 
  * @author Andrej Petras
  */
 public interface ContextCloseViewController extends ActionContextViewController, CloseViewController {

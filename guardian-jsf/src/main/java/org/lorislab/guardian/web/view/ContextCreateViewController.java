@@ -16,11 +16,11 @@
 
 package org.lorislab.guardian.web.view;
 
-import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.CreateViewController;
 
 /**
- *
+ * The context create view controller.
+ * 
  * @author Andrej Petras
  */
 public interface ContextCreateViewController extends ActionContextViewController, CreateViewController {

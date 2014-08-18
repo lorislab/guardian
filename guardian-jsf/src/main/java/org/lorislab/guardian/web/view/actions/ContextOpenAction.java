@@ -21,8 +21,9 @@ import org.lorislab.guardian.web.view.ContextOpenViewController;
 /**
  * The context open action.
  *
+ * @param <T> the context open view controller type.
+ *
  * @author Andrej Petras
- * @param <T> the context open view controller.
  */
 public class ContextOpenAction<T extends ContextOpenViewController> extends AbstractContextControllerAction<T> {
 

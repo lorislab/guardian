@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Andrej Petras.
+ * Copyright 2014 lorislab.org.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,40 +15,41 @@
  */
 package org.lorislab.guardian.web.view.actions;
 
-import org.lorislab.guardian.web.view.AbstractContextSearchViewController;
+import javax.faces.context.FacesContext;
+import org.lorislab.guardian.web.view.ActionContextViewController;
 
 /**
- * The context reset action.
- *
- * @param <T> the context reset view controller type.
- *
+ * The logout action.
+ * 
+ * @param <T> the parent type.
+ * 
  * @author Andrej Petras
  */
-public class ContextResetAction<T extends AbstractContextSearchViewController> extends AbstractContextControllerAction<T> {
+public class ContextLogoutAction<T extends ActionContextViewController> extends ContextMenuAction<T> {
 
     /**
      * The UID for this class.
      */
-    private static final long serialVersionUID = -4319705802397321547L;
+    private static final long serialVersionUID = -9154512589848412309L;
 
     /**
      * The default constructor.
      *
-     * @param parent the parent view controller.
-     * @param context the context.
-     * @param action the action.
+     * @param parent
+     * @param context
+     * @param action
+     * @param navigation
      */
-    public ContextResetAction(T parent, Enum context, Enum action) {
-        super(parent, context, action);
+    public ContextLogoutAction(T parent, Enum context, Enum action, String navigation) {
+        super(parent, context, action, navigation);
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    protected Object doExecute() throws Exception {
-        getParent().reset();
-        return null;
+    public Object execute() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return super.execute();
     }
-
 }

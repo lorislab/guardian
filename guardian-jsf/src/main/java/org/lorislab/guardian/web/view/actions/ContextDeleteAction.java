@@ -13,26 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.view.actions;
 
 import org.lorislab.guardian.web.view.ContextDeleteViewController;
 
 /**
+ * The context delete action.
+ *
+ * @param <T> the context delete view controller type.
  *
  * @author Andrej Petras
- * @param <T>
  */
 public class ContextDeleteAction<T extends ContextDeleteViewController> extends AbstractContextControllerAction<T> {
-    
+
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = -401771961900364439L;
 
+    /**
+     * The default constructor.
+     *
+     * @param parent the parent view controller.
+     * @param context the context.
+     * @param action the action.
+     */
     public ContextDeleteAction(T parent, Enum context, Enum action) {
         super(parent, context, action);
-    }       
-    
+    }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     protected Object doExecute() throws Exception {
         return getParent().delete();
-    }       
+    }
 }

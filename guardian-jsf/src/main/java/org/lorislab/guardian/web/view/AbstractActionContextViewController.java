@@ -21,16 +21,26 @@ import javax.inject.Inject;
 import org.lorislab.guardian.api.model.UserData;
 
 /**
- *
+ * The abstract action context view controller.
+ * 
  * @author Andrej Petras
  */
 public abstract class AbstractActionContextViewController implements ActionContextViewController, Serializable {
    
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = 6385247461490018495L;
 
+    /**
+     * The user data.
+     */
     @Inject
     protected UserData userData;
     
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean hasUserAction(Enum context, Enum action) {
         if (userData != null) {

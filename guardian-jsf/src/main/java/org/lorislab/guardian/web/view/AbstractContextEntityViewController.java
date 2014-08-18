@@ -18,20 +18,31 @@ package org.lorislab.guardian.web.view;
 
 import javax.inject.Inject;
 import org.lorislab.guardian.api.model.UserData;
-import org.lorislab.guardian.web.view.ActionContextViewController;
 import org.lorislab.jel.jsf.view.AbstractEntityViewController;
 
 /**
- *
+ * The abstract context entity view controller.
+ * 
+ * @param <T> the type of the entity.
+ * 
  * @author Andrej Petras
  */
-public class AbstractContextEntityViewController<T> extends AbstractEntityViewController<T> implements ActionContextViewController {
+public abstract class AbstractContextEntityViewController<T> extends AbstractEntityViewController<T> implements ActionContextViewController {
     
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = -9171198009172337397L;
     
+    /**
+     * The user data.
+     */
     @Inject
     protected UserData userData;
     
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean hasUserAction(Enum context, Enum action) {
         if (userData != null) {

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.user.controller;
 
 import java.io.Serializable;
@@ -29,22 +28,40 @@ import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.service.UserDataService;
 
 /**
+ * The user controller.
  *
  * @author Andrej Petras
  */
 @Named("userC")
 @SessionScoped
 public class UserController implements Serializable {
-    
+
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = 9212806894953594995L;
-    
+
+    /**
+     * The logger for this class.
+     */
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
-    
+
+    /**
+     * The service.
+     */
     @EJB
     private UserDataService service;
-    
+
+    /**
+     * The user data model.
+     */
     private UserData data;
 
+    /**
+     * Gest the user data.
+     *
+     * @return the user data.
+     */
     @Produces
     public UserData getUser() {
         if (data == null) {
@@ -52,12 +69,15 @@ public class UserController implements Serializable {
         }
         return data;
     }
-    
+
+    /**
+     * Loads the user data by service.
+     */
     private void load() {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
-            if (principal != null) {            
-                data = service.getUserData(principal.getName());                
+            if (principal != null) {
+                data = service.getUserData(principal.getName());
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error loading the user data!", ex);

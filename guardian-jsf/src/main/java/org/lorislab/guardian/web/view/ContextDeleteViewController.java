@@ -19,7 +19,8 @@ package org.lorislab.guardian.web.view;
 import org.lorislab.jel.jsf.view.DeleteViewController;
 
 /**
- *
+ * The context delete view controller.
+ * 
  * @author Andrej Petras
  */
 public interface ContextDeleteViewController extends ActionContextViewController, DeleteViewController {

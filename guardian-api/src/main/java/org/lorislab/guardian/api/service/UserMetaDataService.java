@@ -18,17 +18,17 @@ package org.lorislab.guardian.api.service;
 
 import java.util.List;
 import java.util.Set;
-import org.lorislab.guardian.api.model.UserDataConfig;
+import org.lorislab.guardian.api.model.UserMetaData;
 
 /**
  *
  * @author Andrej Petras
  */
-public interface UserConfigService {
+public interface UserMetaDataService {
+ 
+    public UserMetaData loadUserMetaData(String userGuid) throws Exception;
     
-    public UserDataConfig getUserConfig(String userGuid) throws Exception;
+    public UserMetaData saveUserMetaData(UserMetaData userMetaData) throws Exception;
     
-    public UserDataConfig saveUserConfig(UserDataConfig userConfig) throws Exception;
-    
-    public List<? extends UserDataConfig> getUserConfigs(Set<String> users) throws Exception;
+    public List<? extends UserMetaData> getUserMetaDatas(Set<String> users) throws Exception;
 }

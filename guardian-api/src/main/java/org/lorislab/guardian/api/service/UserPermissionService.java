@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package org.lorislab.guardian.service.model;
+package org.lorislab.guardian.api.service;
 
-import java.util.Set;
-import org.lorislab.guardian.api.model.UserData;
-import org.lorislab.guardian.api.model.UserDataConfig;
-import org.lorislab.guardian.user.model.User;
+import org.lorislab.guardian.api.model.UserPermission;
 
 /**
- *
+ * The user permission service.
+ * 
  * @author Andrej Petras
  */
-public abstract class AbstractUserData<C extends UserDataConfig> extends UserData<User, C> {
+public interface UserPermissionService {
     
-    private static final long serialVersionUID = -3048282351131237445L;
-   
-    public AbstractUserData(String principal, Set<String> roles, Set<String> actions) {
-        super(principal, roles, actions);
-    }
-    
+    public UserPermission getUserPermission(String principal) throws Exception;
+
 }

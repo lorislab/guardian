@@ -18,7 +18,7 @@ package org.lorislab.guardian.web.view;
 
 import java.io.Serializable;
 import javax.inject.Inject;
-import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserPermission;
 
 /**
  * The abstract action context view controller.
@@ -36,7 +36,7 @@ public abstract class AbstractActionContextViewController implements ActionConte
      * The user data.
      */
     @Inject
-    protected UserData userData;
+    protected UserPermission userData;
     
     /**
      * {@inheritDoc }

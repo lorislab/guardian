@@ -13,24 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.api.service;
 
 import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataSearchCriteria;
+import org.lorislab.guardian.api.criteria.UserDataCriteria;
 import org.lorislab.guardian.api.model.UserData;
 
 /**
- * The user service.
- * 
- * @param <A> the user data type.
+ * The user data profile service.
  * 
  * @author Andrej Petras
  */
-public interface UserDataService<A extends UserData> {
-    
-    public List<A> findUserData(UserDataSearchCriteria criteria) throws Exception;
-    
-    public A getUserData(String principal) throws Exception;
+public interface UserDataService {
 
+    /**
+     * Gets the user data profile.
+     *
+     * @param principal the user data profile.
+     * @return the user data profile.
+     * @throws java.lang.Exception if the method fails.
+     */
+    public UserData loadUserData(String principal) throws Exception;
+
+    public UserData saveUserData(UserData profile) throws Exception;
+    
+    /**
+     * Finds the user data profile by criteria.
+     *
+     * @param criteria the user data profile criteria.
+     * @return the corresponding list of users profiles.
+     * @throws java.lang.Exception if the method fails.
+     */
+    public List<UserData> findUserDataByCriteria(UserDataCriteria criteria) throws Exception;
 }

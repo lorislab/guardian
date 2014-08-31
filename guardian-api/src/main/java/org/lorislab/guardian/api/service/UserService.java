@@ -16,19 +16,13 @@
 
 package org.lorislab.guardian.api.service;
 
-import java.util.List;
 import java.util.Set;
-import org.lorislab.guardian.api.model.UserDataConfig;
 
 /**
  *
  * @author Andrej Petras
  */
-public interface UserConfigService {
+public interface UserService {
     
-    public UserDataConfig getUserConfig(String userGuid) throws Exception;
-    
-    public UserDataConfig saveUserConfig(UserDataConfig userConfig) throws Exception;
-    
-    public List<? extends UserDataConfig> getUserConfigs(Set<String> users) throws Exception;
+    public Set<String> getUserRoles(String principal) throws Exception;
 }

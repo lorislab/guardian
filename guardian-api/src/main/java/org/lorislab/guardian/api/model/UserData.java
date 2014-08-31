@@ -13,75 +13,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.api.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  *
  * @author Andrej Petras
  */
-public abstract class UserData<P, C extends UserDataConfig> implements Serializable {
+public class UserData implements Serializable {
     
-    private static final long serialVersionUID = -5900995309959406528L;
-    
-    private String principal;    
-    
-    private C config;
+    private static final long serialVersionUID = -1383569625147350985L;
 
-    private P user;
-        
-    private Set<String> roles;
+    private final String principal;
+
+    private UserDataConfig config;
+
+    private UserMetaData metadata;
     
-    private Set<String> actions;
-    
-    public UserData(String principal, Set<String> roles, Set<String> actions) {
-        this.principal = principal;
-        this.roles = roles;
-        this.actions = actions;
+    private UserDataProfile profile;
+
+    public UserData() {
+        this(null);
     }
-                
+    
+    public UserData(String principal) {
+        this.principal = principal;
+    }
+
+    public UserMetaData getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(UserMetaData metadata) {
+        this.metadata = metadata;
+    }
+    
     public String getPrincipal() {
         return principal;
     }
 
-    public P getUser() {
-        return user;
+    public UserDataProfile getUserProfile() {
+        return profile;
     }
 
-    public void setUser(P user) {
-        this.user = user;
+    public void setUserProfile(UserDataProfile profile) {
+        this.profile = profile;
     }
-  
-    public void setConfig(C config) {
+
+    public void setConfig(UserDataConfig config) {
         this.config = config;
     }
-    
-    public C getConfig() {
+
+    public UserDataConfig getConfig() {
         return config;
     }
-            
-    public boolean hasRole(String role) {
-        if (roles != null) {
-            return roles.contains(role);
-        }
-        return false;
-    }
 
-    public boolean hasAction(Enum context) {
-        return hasAction(context, null);
-    }
-
-    public boolean hasAction(Enum context, Enum action) {
-        if (actions != null && context != null) {
-            String tmp = null;
-            if (action != null) {
-                tmp = action.name();
-            }
-            return actions.contains(context.name() + tmp);
-        }
-        return false;
-    }   
 }

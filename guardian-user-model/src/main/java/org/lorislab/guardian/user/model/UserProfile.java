@@ -20,6 +20,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.jel.jpa.model.TraceablePersistent;
 
 /**
@@ -29,7 +30,7 @@ import org.lorislab.jel.jpa.model.TraceablePersistent;
  */
 @Entity(name = "GUserProfile")
 @Table(name = "GU_USER_PROFILE")
-public class UserProfile extends TraceablePersistent {
+public class UserProfile extends TraceablePersistent implements UserDataProfile {
 
     /**
      * The UID for this class.
@@ -92,6 +93,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @return the first name.
      */
+    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -101,6 +103,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @param firstName the first name.
      */
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -110,6 +113,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @return the middle name.
      */
+    @Override
     public String getMiddleName() {
         return middleName;
     }
@@ -119,6 +123,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @param middleName the middle name to set.
      */
+    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
@@ -128,6 +133,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @return the last name.
      */
+    @Override
     public String getLastName() {
         return lastName;
     }
@@ -137,6 +143,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @param lastName the last name to set.
      */
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -146,6 +153,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @return the email.
      */
+    @Override
     public String getEmail() {
         return email;
     }
@@ -155,6 +163,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @param email the email to set.
      */
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
@@ -164,6 +173,7 @@ public class UserProfile extends TraceablePersistent {
      *
      * @return the locale.
      */
+    @Override
     public Locale getLocale() {
         return locale;
     }
@@ -173,8 +183,21 @@ public class UserProfile extends TraceablePersistent {
      *
      * @param locale the locale to set.
      */
+    @Override
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getUserGuid() {
+        String result = null;
+        if (user != null) {
+            result = user.getGuid();
+        }
+        return result;
     }
 
 }

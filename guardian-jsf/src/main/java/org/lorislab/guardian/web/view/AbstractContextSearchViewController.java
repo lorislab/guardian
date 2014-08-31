@@ -17,7 +17,7 @@
 package org.lorislab.guardian.web.view;
 
 import javax.inject.Inject;
-import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.jel.base.criteria.AbstractSearchCriteria;
 import org.lorislab.jel.jsf.view.AbstractSearchViewController;
 
@@ -39,7 +39,7 @@ public abstract class AbstractContextSearchViewController<T, S extends  Abstract
      * The user data.
      */
     @Inject
-    protected UserData userData;
+    protected UserPermission userData;
     
     /**
      * {@inheritDoc }

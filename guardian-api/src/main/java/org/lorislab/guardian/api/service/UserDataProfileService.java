@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 lorislab.org.
+ * Copyright 2014 Andrej Petras.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,20 @@
 
 package org.lorislab.guardian.api.service;
 
+import java.util.List;
 import java.util.Set;
-import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserDataProfile;
 
 /**
- *
+ * The profile service.
+ * 
  * @author Andrej Petras
  */
-public interface UserDataFactoryService<T extends UserData> {
+public interface UserDataProfileService {
+ 
+    public UserDataProfile getProfileByPrincipal(String principal) throws Exception;
     
-    public T createUserData(String principal);
+    public UserDataProfile saveProfile(UserDataProfile profile) throws Exception;
     
-    public T createUserData(String principal, Set<String> roles, Set<String> actions);
-    
+    public List<? extends UserDataProfile> getProfiles(Set<String> users) throws Exception;
 }

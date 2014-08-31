@@ -17,7 +17,7 @@
 package org.lorislab.guardian.web.view;
 
 import javax.inject.Inject;
-import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.jel.jsf.view.AbstractEntityViewController;
 
 /**
@@ -38,7 +38,7 @@ public abstract class AbstractContextEntityViewController<T> extends AbstractEnt
      * The user data.
      */
     @Inject
-    protected UserData userData;
+    protected UserPermission userData;
     
     /**
      * {@inheritDoc }

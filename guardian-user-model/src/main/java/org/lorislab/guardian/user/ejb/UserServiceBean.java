@@ -17,6 +17,7 @@ package org.lorislab.guardian.user.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -27,6 +28,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.lorislab.guardian.api.service.UserService;
 import org.lorislab.guardian.user.criteria.UserSearchCriteria;
 import org.lorislab.guardian.user.model.User;
 import org.lorislab.guardian.user.model.User_;
@@ -40,7 +42,7 @@ import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class UserService extends AbstractEntityServiceBean<User> {
+public class UserServiceBean extends AbstractEntityServiceBean<User> implements UserService {
 
     /**
      * The entity manager.
@@ -66,12 +68,11 @@ public class UserService extends AbstractEntityServiceBean<User> {
         return delete(guid);
     }
     
-    public User getFullUser(String principal) throws ServiceException {
+    public User getUserWithRoles(String principal) throws ServiceException {
         User result = null;
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
         CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
         Root<User> root = cq.from(User.class);
-        root.fetch(User_.profile);
         root.fetch(User_.roles);
                         
         cq.where(
@@ -142,6 +143,30 @@ public class UserService extends AbstractEntityServiceBean<User> {
         TypedQuery<User> query = getBaseEAO().createTypedQuery(cq);
         result = query.getResultList();
 
+        return result;
+    }
+
+    @Override
+    public Set<String> getUserRoles(String principal) throws Exception {
+        Set<String> result = null;
+        CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
+        CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
+        Root<User> root = cq.from(User.class);
+        root.fetch(User_.roles);
+                        
+        cq.where(
+                cb.and(
+                    cb.equal(root.get(User_.principal), principal),
+                    cb.equal(root.get(User_.enabled), true),
+                    cb.equal(root.get(User_.deleted), false)
+                )
+        );
+        
+        TypedQuery<User> query = getBaseEAO().createTypedQuery(cq);
+        List<User> tmp = query.getResultList();        
+        if (tmp != null && !tmp.isEmpty()) {
+            result = tmp.get(0).getRoles();
+        }
         return result;
     }
 }

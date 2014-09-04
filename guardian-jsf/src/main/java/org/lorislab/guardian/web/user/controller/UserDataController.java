@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.web.user.controller;
 
 import java.io.Serializable;
@@ -22,31 +21,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.guardian.api.service.UserDataService;
+import org.lorislab.jel.jsf.permission.controller.PermissionController;
 
 /**
  *
  * @author Andrej Petras
  */
 @Named("userDataC")
+@Alternative
 @SessionScoped
-public class UserDataController implements Serializable {
-    
+public class UserDataController implements PermissionController, Serializable {
+
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = -896179965223569147L;
-    
+
     /**
      * The logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger(UserDataController.class.getName());
-    
+
     @EJB
     private UserDataService service;
-    
+
     private UserData data;
+
+    /**
+     * The user data model.
+     */
+    private UserPermission permissions;
     
     @Produces
     public UserData getUserData() {
@@ -55,19 +66,27 @@ public class UserDataController implements Serializable {
         }
         return data;
     }
-    
+
     public void load() {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
                 data = service.loadUserData(principal.getName());
-            }            
+                if (data != null) {
+                    permissions = service.getUserPermission(principal.getName());
+                }
+            }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error loading the user data!", ex);
         }
     }
-    
+
     public void save() throws Exception {
         data = service.saveUserData(data);
     }
+    
+    @Override
+    public boolean hasUserAction(Enum context, Enum permission) {
+        return permissions.hasUserAction(context, context);
+    }    
 }

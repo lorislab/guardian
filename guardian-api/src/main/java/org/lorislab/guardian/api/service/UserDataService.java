@@ -18,13 +18,23 @@ package org.lorislab.guardian.api.service;
 import java.util.List;
 import org.lorislab.guardian.api.criteria.UserDataCriteria;
 import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserPermission;
 
 /**
  * The user data profile service.
- * 
+ *
  * @author Andrej Petras
  */
 public interface UserDataService {
+
+    /**
+     * Gets the user permissions.
+     *
+     * @param principal the principal.
+     * @return the use permissions.
+     * @throws java.lang.Exception if the method fails.
+     */
+    public UserPermission getUserPermission(String principal) throws Exception;
 
     /**
      * Gets the user data profile.
@@ -35,8 +45,15 @@ public interface UserDataService {
      */
     public UserData loadUserData(String principal) throws Exception;
 
+    /**
+     * Saves the user data.
+     *
+     * @param profile the user data.
+     * @return the saved user data.
+     * @throws java.lang.Exception if the method fails.
+     */
     public UserData saveUserData(UserData profile) throws Exception;
-    
+
     /**
      * Finds the user data profile by criteria.
      *

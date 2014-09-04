@@ -17,8 +17,10 @@ package org.lorislab.guardian.service.ejb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -29,10 +31,15 @@ import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.guardian.api.model.UserDataConfig;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserMetaData;
+import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.guardian.api.service.UserDataProfileService;
 import org.lorislab.guardian.api.service.UserConfigService;
 import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.guardian.api.service.UserMetaDataService;
+import org.lorislab.guardian.api.service.UserService;
+import org.lorislab.guardian.app.ejb.RoleService;
+import org.lorislab.guardian.app.model.Permission;
+import org.lorislab.guardian.app.model.Role;
 
 /**
  * The default user data profile service.
@@ -61,6 +68,12 @@ public class UserDataServiceBean implements UserDataService {
      */
     @EJB
     private UserMetaDataService userMetaDataService;
+
+    @EJB
+    private UserService userService;
+
+    @EJB
+    private RoleService roleService;
 
     /**
      * {@inheritDoc }
@@ -121,14 +134,14 @@ public class UserDataServiceBean implements UserDataService {
             if (profiles != null) {
                 Map<String, UserData> tmp = new HashMap<>();
                 result = new ArrayList<>(profiles.size());
-                
+
                 for (UserDataProfile profile : profiles) {
                     UserData item = new UserData();
                     item.setUserProfile(profile);
                     tmp.put(profile.getUserGuid(), item);
                     result.add(item);
                 }
-                
+
                 // load user configuration
                 if (criteria.isFetchConfig()) {
                     List<? extends UserDataConfig> configs = configService.getUserConfigs(criteria.getUsers());
@@ -151,10 +164,41 @@ public class UserDataServiceBean implements UserDataService {
                             if (data != null) {
                                 data.setMetadata(meta);
                             }
-                        }                        
+                        }
                     }
                 }
             }
+        }
+        return result;
+    }
+
+    @Override
+    public UserPermission getUserPermission(String principal) throws Exception {
+        UserPermission result = null;
+
+        Set<String> userRoles = userService.getUserRoles(principal);
+        if (userRoles != null) {
+
+            // load roles and actions
+            Set<String> actions = new HashSet<>();
+
+            List<Role> tmp = roleService.getRolesForUser(userRoles);
+
+            if (tmp != null) {
+                for (Role role : tmp) {
+
+                    Set<Permission> permissions = role.getPermissions();
+                    if (permissions != null) {
+                        for (Permission perm : permissions) {
+                            if (perm.isEnabled()) {
+                                actions.add(perm.getContext() + perm.getAction());
+                            }
+                        }
+                    }
+                }
+            }
+
+            result = new UserPermission(actions);
         }
         return result;
     }

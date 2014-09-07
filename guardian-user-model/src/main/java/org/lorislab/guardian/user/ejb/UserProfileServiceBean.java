@@ -21,6 +21,8 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -46,6 +48,20 @@ import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
 public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfile> implements UserDataProfileService {
 
     /**
+     * The entity manager.
+     */
+    @PersistenceContext
+    private EntityManager em;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+    
+    /**
      * Saves the user profile.
      *
      * @param profile the user profile.
@@ -53,6 +69,7 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
      * @throws Exception if the method fails.
      */
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UserDataProfile saveProfile(UserDataProfile profile) throws Exception {
         return this.save((UserProfile) profile);
     }

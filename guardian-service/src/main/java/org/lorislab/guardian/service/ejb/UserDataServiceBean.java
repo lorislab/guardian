@@ -180,25 +180,25 @@ public class UserDataServiceBean implements UserDataService {
         if (userRoles != null) {
 
             // load roles and actions
-            Set<String> actions = new HashSet<>();
+            Set<String> permissions = new HashSet<>();
 
             List<Role> tmp = roleService.getRolesForUser(userRoles);
 
             if (tmp != null) {
                 for (Role role : tmp) {
 
-                    Set<Permission> permissions = role.getPermissions();
-                    if (permissions != null) {
-                        for (Permission perm : permissions) {
+                    Set<Permission> items = role.getPermissions();
+                    if (items != null) {
+                        for (Permission perm : items) {
                             if (perm.isEnabled()) {
-                                actions.add(perm.getContext() + perm.getAction());
+                                permissions.add(perm.getContext() + perm.getAction());
                             }
                         }
                     }
                 }
             }
 
-            result = new UserPermission(actions);
+            result = new UserPermission(permissions);
         }
         return result;
     }

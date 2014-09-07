@@ -27,19 +27,15 @@ public class UserPermission implements Serializable {
     
     private static final long serialVersionUID = -5900995309959406528L;
     
-    private final Set<String> actions;
+    private final Set<String> permissions;
     
-    public UserPermission(Set<String> actions) {
-        this.actions = actions;
+    public UserPermission(Set<String> permissions) {
+        this.permissions = permissions;
     }
    
-    public boolean hasUserAction(Enum context, Enum action) {
+    public boolean hasUserAction(Enum context, Enum permission) {
         if (context != null) {
-            String tmp = null;
-            if (action != null) {
-                tmp = action.name();
-            }
-            return actions.contains(context.name() + tmp);
+            return permissions.contains("" + context + permission);
         }
         return false;
     }   

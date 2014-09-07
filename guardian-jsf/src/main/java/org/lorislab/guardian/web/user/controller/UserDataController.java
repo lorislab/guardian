@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
@@ -28,9 +29,11 @@ import javax.inject.Named;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.guardian.api.service.UserDataService;
+import org.lorislab.jel.jsf.api.interceptor.annotations.FacesServiceMethod;
 import org.lorislab.jel.jsf.permission.controller.PermissionController;
 
 /**
+ * The user data controller.
  *
  * @author Andrej Petras
  */
@@ -49,16 +52,35 @@ public class UserDataController implements PermissionController, Serializable {
      */
     private static final Logger LOGGER = Logger.getLogger(UserDataController.class.getName());
 
+    /**
+     * The user data service.
+     */
     @EJB
     private UserDataService service;
 
+    /**
+     * The user data.
+     */
     private UserData data;
 
     /**
      * The user data model.
      */
     private UserPermission permissions;
-    
+
+    /**
+     * The initialise method.
+     */
+    @PostConstruct
+    protected void init() {
+        load();
+    }
+
+    /**
+     * Gets the user data.
+     *
+     * @return the user data.
+     */
     @Produces
     public UserData getUserData() {
         if (data == null) {
@@ -67,6 +89,10 @@ public class UserDataController implements PermissionController, Serializable {
         return data;
     }
 
+    /**
+     * Loads the user data.
+     */
+    @FacesServiceMethod
     public void load() {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
@@ -81,12 +107,21 @@ public class UserDataController implements PermissionController, Serializable {
         }
     }
 
+    /**
+     * Saves the user data.
+     *
+     * @throws Exception if the method fails.
+     */
+    @FacesServiceMethod
     public void save() throws Exception {
         data = service.saveUserData(data);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean hasUserAction(Enum context, Enum permission) {
-        return permissions.hasUserAction(context, context);
-    }    
+        return permissions.hasUserAction(context, permission);
+    }
 }

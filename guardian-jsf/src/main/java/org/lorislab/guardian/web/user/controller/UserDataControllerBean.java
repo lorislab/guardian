@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserPermission;
+import org.lorislab.guardian.api.service.UserDataController;
 import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.jel.jsf.api.interceptor.annotations.FacesServiceMethod;
 import org.lorislab.jel.jsf.permission.controller.PermissionController;
@@ -40,7 +41,7 @@ import org.lorislab.jel.jsf.permission.controller.PermissionController;
 @Named("userDataC")
 @Alternative
 @SessionScoped
-public class UserDataController implements PermissionController, Serializable {
+public class UserDataControllerBean implements UserDataController, PermissionController, Serializable {
 
     /**
      * The UID for this class.
@@ -50,7 +51,7 @@ public class UserDataController implements PermissionController, Serializable {
     /**
      * The logger for this class.
      */
-    private static final Logger LOGGER = Logger.getLogger(UserDataController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UserDataControllerBean.class.getName());
 
     /**
      * The user data service.
@@ -73,7 +74,11 @@ public class UserDataController implements PermissionController, Serializable {
      */
     @PostConstruct
     protected void init() {
-        load();
+        try {
+            load();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error initialise the user data!", ex);
+        }
     }
 
     /**
@@ -82,9 +87,10 @@ public class UserDataController implements PermissionController, Serializable {
      * @return the user data.
      */
     @Produces
-    public UserData getUserData() {
+    @Override
+    public UserData getModel() {
         if (data == null) {
-            load();
+            init();
         }
         return data;
     }
@@ -93,7 +99,8 @@ public class UserDataController implements PermissionController, Serializable {
      * Loads the user data.
      */
     @FacesServiceMethod
-    public void load() {
+    @Override
+    public void load() throws Exception {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
@@ -113,6 +120,7 @@ public class UserDataController implements PermissionController, Serializable {
      * @throws Exception if the method fails.
      */
     @FacesServiceMethod
+    @Override
     public void save() throws Exception {
         data = service.saveUserData(data);
     }
@@ -122,6 +130,8 @@ public class UserDataController implements PermissionController, Serializable {
      */
     @Override
     public boolean hasUserAction(Enum context, Enum permission) {
-        return permissions.hasUserAction(context, permission);
+        boolean result = permissions.hasUserAction(context, permission);
+        LOGGER.log(Level.FINE, "Permission [{0},{1}] => {2}", new Object[]{context, permission, result});
+        return result;
     }
 }

@@ -53,11 +53,11 @@ public class UserData implements Serializable {
         return principal;
     }
 
-    public UserDataProfile getUserProfile() {
+    public UserDataProfile getProfile() {
         return profile;
     }
 
-    public void setUserProfile(UserDataProfile profile) {
+    public void setProfile(UserDataProfile profile) {
         this.profile = profile;
     }
 

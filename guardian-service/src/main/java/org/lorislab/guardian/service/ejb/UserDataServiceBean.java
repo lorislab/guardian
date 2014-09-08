@@ -86,7 +86,7 @@ public class UserDataServiceBean implements UserDataService {
             UserDataProfile profile = userProfileService.getProfileByPrincipal(principal);
             if (profile != null) {
                 result = new UserData(principal);
-                result.setUserProfile(profile);
+                result.setProfile(profile);
 
                 String userId = profile.getUserGuid();
                 // load user configuration
@@ -103,17 +103,18 @@ public class UserDataServiceBean implements UserDataService {
     /**
      * {@inheritDoc }
      */
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserData saveUserData(UserData profile) throws Exception {
         if (profile != null) {
-            if (profile.getUserProfile() != null) {
-                UserDataProfile tmp = userProfileService.saveProfile(profile.getUserProfile());
+            if (profile.getProfile() != null) {
+                UserDataProfile tmp = userProfileService.saveProfile(profile.getProfile());
 
                 UserDataConfig config = configService.saveUserConfig(profile.getConfig());
 
                 UserMetaData metadata = userMetaDataService.saveUserMetaData(profile.getMetadata());
 
-                profile.setUserProfile(tmp);
+                profile.setProfile(tmp);
                 profile.setConfig(config);
                 profile.setMetadata(metadata);
             }
@@ -137,7 +138,7 @@ public class UserDataServiceBean implements UserDataService {
 
                 for (UserDataProfile profile : profiles) {
                     UserData item = new UserData();
-                    item.setUserProfile(profile);
+                    item.setProfile(profile);
                     tmp.put(profile.getUserGuid(), item);
                     result.add(item);
                 }

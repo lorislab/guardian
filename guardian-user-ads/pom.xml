@@ -5,27 +5,34 @@
         <groupId>org.lorislab.guardian</groupId>
         <artifactId>guardian</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+        <relativePath>../</relativePath>
     </parent>
 	
     <artifactId>guardian-user-ads</artifactId> 
     <name>guardian-user-ads</name>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.lorislab.guardian</groupId>
-			<artifactId>guardian-user-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lorislab.barn</groupId>
-			<artifactId>barn-api</artifactId>
-		</dependency>
-		<!-- EJB -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>		
-	</dependencies>
+    <packaging>ejb</packaging>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.lorislab.guardian</groupId>
+            <artifactId>guardian-user-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lorislab.barn</groupId>
+            <artifactId>barn-api</artifactId>
+        </dependency>
+        <!-- TREASURE -->
+        <dependency>
+            <groupId>org.lorislab.treasure</groupId>
+            <artifactId>treasure-lib</artifactId>
+            <scope>provided</scope>
+        </dependency>        
+        <!-- EJB -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>		
+    </dependencies>
 </project>

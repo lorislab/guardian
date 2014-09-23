@@ -28,6 +28,8 @@ import javax.naming.directory.SearchResult;
 import org.lorislab.guardian.user.ads.config.ConnectionConfig;
 import org.lorislab.guardian.user.api.criteria.UserSourceSearchCriteria;
 import org.lorislab.guardian.user.api.model.UserSourceData;
+import org.lorislab.treasure.api.factory.PasswordServiceFactory;
+import org.lorislab.treasure.api.service.PasswordService;
 
 /**
  * The LDAP utility class.
@@ -141,8 +143,10 @@ public final class LDAPUtil {
         if (config.getUser() != null) {
             ldapEnv.put(Context.SECURITY_PRINCIPAL, config.getUser());
         }
-        if (config.getPassword() != null) {
-            ldapEnv.put(Context.SECURITY_CREDENTIALS, config.getPassword());
+        if (config.getPassword() != null) {            
+            PasswordService service = PasswordServiceFactory.getService();
+            char[] tmp = service.getPassword(config.getPassword());
+            ldapEnv.put(Context.SECURITY_CREDENTIALS, new String(tmp));
         }
         DirContext result = new InitialDirContext(ldapEnv);
         return result;

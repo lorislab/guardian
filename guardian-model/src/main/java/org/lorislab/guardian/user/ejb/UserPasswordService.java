@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lorislab.guardian.user.ejb;
 
 import java.util.ArrayList;
@@ -35,13 +34,13 @@ import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
 
 /**
  * The user password service.
- * 
+ *
  * @author Andrej Petras
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class UserPasswordService extends AbstractEntityServiceBean<UserPassword> {
- 
+
     /**
      * The entity manager.
      */
@@ -55,7 +54,14 @@ public class UserPasswordService extends AbstractEntityServiceBean<UserPassword>
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    /**
+     * Gets the user password object.
+     *
+     * @param user the user.
+     * @return the corresponding user password.
+     * @throws ServiceException if the method fails.
+     */
     public UserPassword getUserPasswordByUser(String user) throws ServiceException {
         UserPassword result = null;
 
@@ -66,7 +72,7 @@ public class UserPasswordService extends AbstractEntityServiceBean<UserPassword>
         List<Predicate> predicates = new ArrayList<>();
 
         predicates.add(cb.equal(root.get(UserPassword_.user), user));
-      
+
         if (!predicates.isEmpty()) {
             cq.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
         }
@@ -77,18 +83,27 @@ public class UserPasswordService extends AbstractEntityServiceBean<UserPassword>
             result = tmp.get(0);
         }
 
-        return result;        
+        return result;
     }
-    
-    public UserPassword getUserPassword(String guid) throws ServiceException {
-        return this.getById(guid);
-    }
-    
+
+    /**
+     * Saves the user password.
+     *
+     * @param userPassword the user password.
+     * @return the saved user password.
+     * @throws ServiceException if the method fails.
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UserPassword saveUserPassword(UserPassword userPassword) throws ServiceException {
         return save(userPassword);
     }
-    
+
+    /**
+     * Deletes the user password.
+     * @param guid the user password GUID.
+     * @return {@code true} if the user password was deleted.
+     * @throws ServiceException if the method fails.
+     */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean deleteUserPassword(String guid) throws ServiceException {
         return delete(guid);

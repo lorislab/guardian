@@ -8,8 +8,8 @@
         <relativePath>../</relativePath>
     </parent>
 	
-    <artifactId>guardian-service</artifactId> 
-    <name>guardian-service</name>
+    <artifactId>guardian-model</artifactId> 
+    <name>guardian-model</name>
     <packaging>ejb</packaging>
 	
     <dependencies>
@@ -17,26 +17,34 @@
             <groupId>org.lorislab.guardian</groupId>
             <artifactId>guardian-api</artifactId>
             <version>${project.version}</version>
+        </dependency>        
+        <!-- JEL -->
+        <dependency>
+            <groupId>org.lorislab.jel</groupId>
+            <artifactId>jel-ejb</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.lorislab.guardian</groupId>
-            <artifactId>guardian-model</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            <type>ejb-client</type>
-        </dependency>
-			
-        <!-- TRANSFORMER -->
-        <dependency>
-            <groupId>org.lorislab.transformer</groupId>
-            <artifactId>transformer-api</artifactId>
-        </dependency>								
-			
+            <groupId>org.lorislab.jel</groupId>
+            <artifactId>jel-base</artifactId>
+        </dependency>		
+
         <!-- EJB -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
-        </dependency>   		
+        </dependency>                        
+                                                                
+        <!-- JPA 2 -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <scope>provided</scope>
+        </dependency>		
     </dependencies>
 </project>

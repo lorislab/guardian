@@ -44,7 +44,7 @@ public class UserPassword extends Persistent {
      * The password.
      */
     @Column(name = "C_PASSWORD")
-    private char[] password;
+    private String password;
 
     /**
      * Gets the user.
@@ -69,7 +69,7 @@ public class UserPassword extends Persistent {
      *
      * @return the password.
      */
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -78,7 +78,7 @@ public class UserPassword extends Persistent {
      *
      * @param password the password.
      */
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

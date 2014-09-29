@@ -22,28 +22,16 @@
             </dependency>
             <dependency>
                 <groupId>org.lorislab.guardian</groupId>
-                <artifactId>guardian-app-model</artifactId> 
+                <artifactId>guardian-model</artifactId> 
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>org.lorislab.guardian</groupId>
-                <artifactId>guardian-app-model</artifactId> 
+                <artifactId>guardian-model</artifactId> 
                 <version>${project.version}</version>
                 <type>ejb-client</type>
             </dependency>            
-            <dependency>
-                <groupId>org.lorislab.guardian</groupId>
-                <artifactId>guardian-user-model</artifactId> 
-                <version>${project.version}</version>
-                <type>ejb</type>
-            </dependency>
-            <dependency>
-                <groupId>org.lorislab.guardian</groupId>
-                <artifactId>guardian-user-model</artifactId> 
-                <version>${project.version}</version>
-                <type>ejb-client</type>
-            </dependency>            			
             <dependency>
                 <groupId>org.lorislab.guardian</groupId>
                 <artifactId>guardian-jsf</artifactId> 

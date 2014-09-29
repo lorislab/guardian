@@ -28,7 +28,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.lorislab.guardian.api.service.UserService;
 import org.lorislab.guardian.user.criteria.UserSearchCriteria;
 import org.lorislab.guardian.user.model.User;
 import org.lorislab.guardian.user.model.User_;
@@ -42,7 +41,7 @@ import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class UserServiceBean extends AbstractEntityServiceBean<User> implements UserService {
+public class UserService extends AbstractEntityServiceBean<User> {
 
     /**
      * The entity manager.
@@ -88,6 +87,12 @@ public class UserServiceBean extends AbstractEntityServiceBean<User> implements 
             result = tmp.get(0);
         }
         return result;
+    }
+    
+    public User getUserByPrincipal(String principal) throws ServiceException {
+        UserSearchCriteria uc = new UserSearchCriteria();
+        uc.setPrincipal(principal);
+        return getUser(uc);
     }
     
     public User getUser(UserSearchCriteria criteria) throws ServiceException {
@@ -146,7 +151,6 @@ public class UserServiceBean extends AbstractEntityServiceBean<User> implements 
         return result;
     }
 
-    @Override
     public Set<String> getUserRoles(String principal) throws Exception {
         Set<String> result = null;
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();

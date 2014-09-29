@@ -16,7 +16,7 @@
 package org.lorislab.guardian.api.service;
 
 import java.util.List;
-import org.lorislab.guardian.api.criteria.UserDataCriteria;
+import java.util.Set;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserPermission;
 
@@ -75,11 +75,18 @@ public interface UserDataService {
     public UserData saveUserData(UserData profile) throws Exception;
 
     /**
-     * Finds the user data profile by criteria.
+     * Gets user data by user GUID's. Fetch configuration and meta-data.
      *
-     * @param criteria the user data profile criteria.
-     * @return the corresponding list of users profiles.
-     * @throws java.lang.Exception if the method fails.
+     * @param users the set of user GUID's.
+     * @return the corresponding list of user data.
+     * @throws Exception if the method fails.
      */
-    public List<UserData> findUserDataByCriteria(UserDataCriteria criteria) throws Exception;
+    public List<UserData> getUserData(Set<String> users) throws Exception;
+    
+    /**
+     * Gets all user data.
+     * @return the list of user data.
+     * @throws Exception if the method fails.
+     */
+    public List<UserData> getUserData() throws Exception;
 }

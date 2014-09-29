@@ -60,7 +60,7 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     /**
      * Saves the user profile.
      *
@@ -131,6 +131,19 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
             TypedQuery<UserProfile> query = getBaseEAO().createTypedQuery(cq);
             result = query.getResultList();
         }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc }
+     */    
+    @Override
+    public List<? extends UserDataProfile> getProfiles() throws Exception {
+        CriteriaQuery<UserProfile> cq = getBaseEAO().createCriteriaQuery();
+        Root<UserProfile> root = cq.from(UserProfile.class);
+        root.fetch(UserProfile_.user, JoinType.LEFT);
+        TypedQuery<UserProfile> query = getBaseEAO().createTypedQuery(cq);
+        List<? extends UserDataProfile> result = query.getResultList();
         return result;
     }
 }

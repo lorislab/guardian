@@ -26,7 +26,6 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import org.lorislab.guardian.api.criteria.UserDataCriteria;
 import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.guardian.api.model.UserDataConfig;
 import org.lorislab.guardian.api.model.UserData;
@@ -170,10 +169,9 @@ public class UserDataServiceBean implements UserDataService {
     public UserData saveUserData(UserData profile) throws Exception {
         if (profile != null) {
             if (profile.getProfile() != null) {
+                
                 UserDataProfile tmp = userProfileService.saveProfile(profile.getProfile());
-
                 UserDataConfig config = configService.saveUserConfig(profile.getConfig());
-
                 UserMetaData metadata = userMetaDataService.saveUserMetaData(profile.getMetadata());
 
                 profile.setProfile(tmp);
@@ -188,12 +186,12 @@ public class UserDataServiceBean implements UserDataService {
      * {@inheritDoc }
      */
     @Override
-    public List<UserData> findUserDataByCriteria(UserDataCriteria criteria) throws Exception {
+    public List<UserData> getUserData(Set<String> users) throws Exception {
         List<UserData> result = null;
-        if (criteria != null && criteria.getUsers() != null && !criteria.getUsers().isEmpty()) {
+        if (users != null && !users.isEmpty()) {
 
             // load user profiles
-            List<? extends UserDataProfile> profiles = userProfileService.getProfiles(criteria.getUsers());
+            List<? extends UserDataProfile> profiles = userProfileService.getProfiles(users);
             if (profiles != null) {
                 Map<String, UserData> tmp = new HashMap<>();
                 result = new ArrayList<>(profiles.size());
@@ -205,9 +203,11 @@ public class UserDataServiceBean implements UserDataService {
                     result.add(item);
                 }
 
-                // load user configuration
-                if (criteria.isFetchConfig()) {
-                    List<? extends UserDataConfig> configs = configService.getUserConfigs(criteria.getUsers());
+                Set<String> userGuid = new HashSet<>(tmp.keySet());
+
+                if (!userGuid.isEmpty()) {
+                    // load user configuration
+                    List<? extends UserDataConfig> configs = configService.getUserConfigs(userGuid);
                     if (configs != null) {
                         for (UserDataConfig config : configs) {
                             UserData data = tmp.get(config.getUser());
@@ -216,11 +216,9 @@ public class UserDataServiceBean implements UserDataService {
                             }
                         }
                     }
-                }
 
-                // load meta data
-                if (criteria.isFetchMetadata()) {
-                    List<? extends UserMetaData> metas = userMetaDataService.getUserMetaDatas(criteria.getUsers());
+                    // load meta data
+                    List<? extends UserMetaData> metas = userMetaDataService.getUserMetaDatas(userGuid);
                     if (metas != null) {
                         for (UserMetaData meta : metas) {
                             UserData data = tmp.get(meta.getUser());
@@ -235,6 +233,9 @@ public class UserDataServiceBean implements UserDataService {
         return result;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public UserPermission getUserPermission(String principal) throws Exception {
         UserPermission result = null;
@@ -262,6 +263,24 @@ public class UserDataServiceBean implements UserDataService {
             }
 
             result = new UserPermission(permissions);
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc }
+     */    
+    @Override
+    public List<UserData> getUserData() throws Exception {
+        List<UserData> result = null;
+        List<? extends UserDataProfile> profiles = userProfileService.getProfiles();
+        if (profiles != null) {
+            result = new ArrayList<>(profiles.size());
+            for (UserDataProfile profile : profiles) {
+                UserData item = new UserData();
+                item.setProfile(profile);
+                result.add(item);
+            }
         }
         return result;
     }

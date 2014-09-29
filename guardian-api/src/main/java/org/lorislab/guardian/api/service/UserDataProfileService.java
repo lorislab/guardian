@@ -31,5 +31,7 @@ public interface UserDataProfileService {
     
     public UserDataProfile saveProfile(UserDataProfile profile) throws Exception;
     
+    public List<? extends UserDataProfile> getProfiles() throws Exception;
+    
     public List<? extends UserDataProfile> getProfiles(Set<String> users) throws Exception;
 }

@@ -104,7 +104,7 @@ public class UserDataControllerBean implements UserDataController, PermissionCon
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
-                data = service.loadUserData(principal.getName());
+                data = service.loadUserSessionData(principal.getName());
                 if (data != null) {
                     permissions = service.getUserPermission(principal.getName());
                 }

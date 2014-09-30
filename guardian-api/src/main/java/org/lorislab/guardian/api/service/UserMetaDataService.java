@@ -21,7 +21,8 @@ import java.util.Set;
 import org.lorislab.guardian.api.model.UserMetaData;
 
 /**
- *
+ * The user meta data service.
+ * 
  * @author Andrej Petras
  */
 public interface UserMetaDataService {

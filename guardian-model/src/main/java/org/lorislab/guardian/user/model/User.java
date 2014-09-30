@@ -52,12 +52,6 @@ public class User extends TraceablePersistent {
     @Column(name = "C_ENABLED")
     private boolean enabled;
     /**
-     * The deleted flag.
-     */
-    @Column(name = "C_DELETED")
-    private boolean deleted;
-
-    /**
      * The roles.
      */
     @ElementCollection(fetch = FetchType.LAZY)
@@ -127,24 +121,6 @@ public class User extends TraceablePersistent {
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    /**
-     * Gets the deleted flag.
-     *
-     * @return the deleted flag.
-     */
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    /**
-     * Sets the deleted flag.
-     *
-     * @param deleted the deleted flag to set.
-     */
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     /**

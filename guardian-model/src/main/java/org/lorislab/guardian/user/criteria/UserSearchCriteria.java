@@ -36,8 +36,6 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
     
     private Boolean enabled;
     
-    private Boolean deleted;
-    
     private boolean fetchProfile;
     
     @Override
@@ -45,14 +43,13 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
         guid = null;
         principal = null;
         fetchProfile = false;
-        deleted = null;
         enabled = null;
         guids = null;
     }
 
     @Override
     public boolean isEmpty() {
-        return isEmpty(guid, principal, enabled, deleted, guids);
+        return isEmpty(guid, principal, enabled, guids);
     }
 
     public Set<String> getGuids() {
@@ -62,15 +59,7 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
     public void setGuids(Set<String> guids) {
         this.guids = guids;
     }
-    
-    public Boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
+   
     public Boolean isEnabled() {
         return enabled;
     }

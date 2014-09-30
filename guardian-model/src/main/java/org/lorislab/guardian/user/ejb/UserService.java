@@ -77,7 +77,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
         cq.where(
                 cb.and(
                     cb.equal(root.get(User_.principal), principal),
-                    cb.equal(root.get(User_.deleted), false)
+                    cb.equal(root.get(User_.enabled), false)
                 )
         );
         
@@ -135,10 +135,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
             if (criteria.isEnabled() != null) {
                 predicates.add(cb.equal(root.get(User_.enabled), criteria.isEnabled()));
             }   
-            
-            if (criteria.isDeleted() != null) {
-                predicates.add(cb.equal(root.get(User_.deleted), criteria.isDeleted()));
-            }             
+           
         }
         
         if (!predicates.isEmpty()) {
@@ -161,8 +158,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
         cq.where(
                 cb.and(
                     cb.equal(root.get(User_.principal), principal),
-                    cb.equal(root.get(User_.enabled), true),
-                    cb.equal(root.get(User_.deleted), false)
+                    cb.equal(root.get(User_.enabled), true)
                 )
         );
         

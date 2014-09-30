@@ -15,6 +15,8 @@
  */
 package org.lorislab.guardian.service.ejb;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +33,6 @@ import org.lorislab.guardian.api.model.UserDataConfig;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserMetaData;
 import org.lorislab.guardian.api.model.UserPermission;
-import org.lorislab.guardian.api.service.UserDataProfileService;
 import org.lorislab.guardian.api.service.UserConfigService;
 import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.guardian.api.service.UserMetaDataService;
@@ -40,7 +41,9 @@ import org.lorislab.guardian.app.model.Permission;
 import org.lorislab.guardian.app.model.Role;
 import org.lorislab.guardian.user.ejb.UserPasswordService;
 import org.lorislab.guardian.user.ejb.UserService;
+import org.lorislab.guardian.user.ejb.UserProfileService;
 import org.lorislab.guardian.user.model.User;
+import org.lorislab.guardian.user.model.UserProfile;
 import org.lorislab.guardian.user.model.UserPassword;
 
 /**
@@ -54,10 +57,15 @@ import org.lorislab.guardian.user.model.UserPassword;
 public class UserDataServiceBean implements UserDataService {
 
     /**
+     * The logger for this class.
+     */
+    private static final Logger LOGGER = Logger.getLogger(UserDataServiceBean.class.getName());
+
+    /**
      * The profile service.
      */
     @EJB
-    private UserDataProfileService userProfileService;
+    private UserProfileService userProfileService;
 
     /**
      * The user configuration service.
@@ -140,15 +148,47 @@ public class UserDataServiceBean implements UserDataService {
      * {@inheritDoc }
      */
     @Override
-    public UserData loadUserData(String principal) throws Exception {
+    public UserData loadUserSessionData(String principal) throws Exception {
         UserData result = null;
         if (principal != null) {
             // load user profile
-            UserDataProfile profile = userProfileService.getProfileByPrincipal(principal);
+            UserProfile profile = userProfileService.getProfileByPrincipal(principal);
             if (profile != null) {
+
+                User user = profile.getUser();
+                if (user != null && user.isEnabled()) {
+                    result = new UserData(principal);
+                    result.setProfile(profile);
+                    result.setEnabled(user.isEnabled());
+                    String userId = profile.getUserGuid();
+                    // load user configuration
+                    UserDataConfig config = configService.getUserConfig(userId);
+                    result.setConfig(config);
+                    // load metadata
+                    UserMetaData metadata = userMetaDataService.loadUserMetaData(userId);
+                    result.setMetadata(metadata);
+                } else {
+                    LOGGER.log(Level.INFO, "The user {0} is not enabled for the application", principal);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public UserData getUserData(String principal) throws Exception {
+        UserData result = null;
+        if (principal != null) {
+            // load user profile
+            UserProfile profile = userProfileService.getProfileByPrincipal(principal);
+            if (profile != null) {
+
                 result = new UserData(principal);
                 result.setProfile(profile);
-
+                result.setEnabled(profile.getUser().isEnabled());
                 String userId = profile.getUserGuid();
                 // load user configuration
                 UserDataConfig config = configService.getUserConfig(userId);
@@ -166,20 +206,22 @@ public class UserDataServiceBean implements UserDataService {
      */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public UserData saveUserData(UserData profile) throws Exception {
-        if (profile != null) {
-            if (profile.getProfile() != null) {
-                
-                UserDataProfile tmp = userProfileService.saveProfile(profile.getProfile());
-                UserDataConfig config = configService.saveUserConfig(profile.getConfig());
-                UserMetaData metadata = userMetaDataService.saveUserMetaData(profile.getMetadata());
+    public UserData saveUserData(UserData data) throws Exception {
+        if (data != null) {
+            if (data.getProfile() != null) {
 
-                profile.setProfile(tmp);
-                profile.setConfig(config);
-                profile.setMetadata(metadata);
+                userProfileService.saveProfile(data.getProfile());
+                UserDataProfile profile = userProfileService.getProfileByPrincipal(data.getPrincipal());
+                
+                UserDataConfig config = configService.saveUserConfig(data.getConfig());
+                UserMetaData metadata = userMetaDataService.saveUserMetaData(data.getMetadata());
+
+                data.setProfile(profile);
+                data.setConfig(config);
+                data.setMetadata(metadata);
             }
         }
-        return profile;
+        return data;
     }
 
     /**
@@ -191,14 +233,15 @@ public class UserDataServiceBean implements UserDataService {
         if (users != null && !users.isEmpty()) {
 
             // load user profiles
-            List<? extends UserDataProfile> profiles = userProfileService.getProfiles(users);
+            List<UserProfile> profiles = userProfileService.getProfiles(users);
             if (profiles != null) {
                 Map<String, UserData> tmp = new HashMap<>();
                 result = new ArrayList<>(profiles.size());
 
-                for (UserDataProfile profile : profiles) {
+                for (UserProfile profile : profiles) {
                     UserData item = new UserData();
                     item.setProfile(profile);
+                    item.setEnabled(profile.getUser().isEnabled());
                     tmp.put(profile.getUserGuid(), item);
                     result.add(item);
                 }
@@ -269,7 +312,7 @@ public class UserDataServiceBean implements UserDataService {
 
     /**
      * {@inheritDoc }
-     */    
+     */
     @Override
     public List<UserData> getUserData() throws Exception {
         List<UserData> result = null;
@@ -281,6 +324,19 @@ public class UserDataServiceBean implements UserDataService {
                 item.setProfile(profile);
                 result.add(item);
             }
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<UserDataProfile> getUserDataProfiles() throws Exception {
+        List<UserDataProfile> result = null;
+        List<? extends UserDataProfile> profiles = userProfileService.getProfiles();
+        if (profiles != null) {
+            result = new ArrayList<>(profiles);
         }
         return result;
     }

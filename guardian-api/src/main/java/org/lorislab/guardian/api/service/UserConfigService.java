@@ -21,7 +21,8 @@ import java.util.Set;
 import org.lorislab.guardian.api.model.UserDataConfig;
 
 /**
- *
+ * The user configuration service.
+ * 
  * @author Andrej Petras
  */
 public interface UserConfigService {

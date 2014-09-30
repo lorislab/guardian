@@ -18,6 +18,7 @@ package org.lorislab.guardian.api.service;
 import java.util.List;
 import java.util.Set;
 import org.lorislab.guardian.api.model.UserData;
+import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.guardian.api.model.UserPermission;
 
 /**
@@ -57,14 +58,23 @@ public interface UserDataService {
     public UserPermission getUserPermission(String principal) throws Exception;
 
     /**
+     * Gets the user session data profile.
+     *
+     * @param principal the user data profile.
+     * @return the user data profile.
+     * @throws java.lang.Exception if the method fails.
+     */
+    public UserData loadUserSessionData(String principal) throws Exception;
+
+    /**
      * Gets the user data profile.
      *
      * @param principal the user data profile.
      * @return the user data profile.
      * @throws java.lang.Exception if the method fails.
      */
-    public UserData loadUserData(String principal) throws Exception;
-
+    public UserData getUserData(String principal) throws Exception;
+    
     /**
      * Saves the user data.
      *
@@ -82,11 +92,20 @@ public interface UserDataService {
      * @throws Exception if the method fails.
      */
     public List<UserData> getUserData(Set<String> users) throws Exception;
-    
+
     /**
      * Gets all user data.
+     *
      * @return the list of user data.
      * @throws Exception if the method fails.
      */
     public List<UserData> getUserData() throws Exception;
+
+    /**
+     * Gets all user data profiles.
+     *
+     * @return the list of user data profiles.
+     * @throws Exception if the method fails.
+     */
+    public List<UserDataProfile> getUserDataProfiles() throws Exception;
 }

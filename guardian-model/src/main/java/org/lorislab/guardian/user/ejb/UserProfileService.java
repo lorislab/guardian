@@ -17,7 +17,6 @@ package org.lorislab.guardian.user.ejb;
 
 import java.util.List;
 import java.util.Set;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -30,7 +29,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.lorislab.guardian.api.model.UserDataProfile;
-import org.lorislab.guardian.api.service.UserDataProfileService;
 import org.lorislab.guardian.user.model.User;
 import org.lorislab.guardian.user.model.UserProfile;
 import org.lorislab.guardian.user.model.UserProfile_;
@@ -43,9 +41,8 @@ import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
  * @author Andrej Petras
  */
 @Stateless
-@Local(UserDataProfileService.class)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfile> implements UserDataProfileService {
+public class UserProfileService extends AbstractEntityServiceBean<UserProfile> {
 
     /**
      * The entity manager.
@@ -68,7 +65,6 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
      * @return the saved user profile.
      * @throws Exception if the method fails.
      */
-    @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UserDataProfile saveProfile(UserDataProfile profile) throws Exception {
         return this.save((UserProfile) profile);
@@ -81,8 +77,7 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
      * @return the corresponding user profile.
      * @throws Exception if the method fails.
      */
-    @Override
-    public UserDataProfile getProfileByPrincipal(String principal) throws Exception {
+    public UserProfile getProfileByPrincipal(String principal) throws Exception {
         UserProfile result = null;
 
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
@@ -91,13 +86,7 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
 
         Join<UserProfile, User> join = (Join<UserProfile, User>) root.fetch(UserProfile_.user, JoinType.LEFT);
 
-        cq.where(
-                cb.and(
-                        cb.equal(join.get(User_.principal), principal),
-                        cb.equal(join.get(User_.enabled), true),
-                        cb.equal(join.get(User_.deleted), false)
-                )
-        );
+        cq.where(cb.equal(join.get(User_.principal), principal));
 
         TypedQuery<UserProfile> query = getBaseEAO().createTypedQuery(cq);
         List<UserProfile> tmp = query.getResultList();
@@ -110,9 +99,8 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
     /**
      * {@inheritDoc }
      */
-    @Override
-    public List<? extends UserDataProfile> getProfiles(Set<String> users) throws Exception {
-        List<? extends UserDataProfile> result = null;
+    public List<UserProfile> getProfiles(Set<String> users) throws Exception {
+        List<UserProfile> result = null;
         if (users != null && !users.isEmpty()) {
             CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
             CriteriaQuery<UserProfile> cq = getBaseEAO().createCriteriaQuery();
@@ -123,8 +111,7 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
             cq.where(
                     cb.and(
                             join.get(User_.guid).in(users),
-                            cb.equal(join.get(User_.enabled), true),
-                            cb.equal(join.get(User_.deleted), false)
+                            cb.equal(join.get(User_.enabled), true)
                     )
             );
 
@@ -137,13 +124,12 @@ public class UserProfileServiceBean extends AbstractEntityServiceBean<UserProfil
     /**
      * {@inheritDoc }
      */    
-    @Override
-    public List<? extends UserDataProfile> getProfiles() throws Exception {
+    public List<UserProfile> getProfiles() throws Exception {
         CriteriaQuery<UserProfile> cq = getBaseEAO().createCriteriaQuery();
         Root<UserProfile> root = cq.from(UserProfile.class);
         root.fetch(UserProfile_.user, JoinType.LEFT);
         TypedQuery<UserProfile> query = getBaseEAO().createTypedQuery(cq);
-        List<? extends UserDataProfile> result = query.getResultList();
+        List<UserProfile> result = query.getResultList();
         return result;
     }
 }

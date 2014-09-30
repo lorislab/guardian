@@ -18,53 +18,125 @@ package org.lorislab.guardian.api.model;
 import java.io.Serializable;
 
 /**
+ * The user data model.
  *
  * @author Andrej Petras
  */
 public class UserData implements Serializable {
-    
+
+    /**
+     * The UID for this class.
+     */
     private static final long serialVersionUID = -1383569625147350985L;
 
+    /**
+     * The principal.
+     */
     private final String principal;
 
+    /**
+     * The enabled flag.
+     */
+    private boolean enabled;
+    
+    /**
+     * The user configuration.
+     */
     private UserDataConfig config;
 
+    /**
+     * The user meta data.
+     */
     private UserMetaData metadata;
-    
+
+    /**
+     * The user profile.
+     */
     private UserDataProfile profile;
 
+    /**
+     * The default constructor.
+     */
     public UserData() {
         this(null);
     }
     
+    /**
+     * The default constructor.
+     *
+     * @param principal the user principal.
+     */
     public UserData(String principal) {
         this.principal = principal;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    /**
+     * Gets the meta data.
+     *
+     * @return the meta data.
+     */
     public UserMetaData getMetadata() {
         return metadata;
     }
 
+    /**
+     * Sets the meta data.
+     *
+     * @param metadata the meta data.
+     */
     public void setMetadata(UserMetaData metadata) {
         this.metadata = metadata;
     }
-    
+
+    /**
+     * Gets the principal.
+     *
+     * @return the principal.
+     */
     public String getPrincipal() {
         return principal;
     }
 
+    /**
+     * Gets the user data profile.
+     *
+     * @return the user data profile.
+     */
     public UserDataProfile getProfile() {
         return profile;
     }
 
+    /**
+     * Sets the profile.
+     *
+     * @param profile the profile.
+     */
     public void setProfile(UserDataProfile profile) {
         this.profile = profile;
     }
 
+    /**
+     * Sets the user configuration.
+     *
+     * @param config the user configuration.
+     */
     public void setConfig(UserDataConfig config) {
         this.config = config;
     }
 
+    /**
+     * Gets user configuration.
+     *
+     * @return user configuration.
+     */
     public UserDataConfig getConfig() {
         return config;
     }

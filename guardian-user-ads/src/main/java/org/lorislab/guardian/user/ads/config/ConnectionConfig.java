@@ -48,11 +48,6 @@ public class ConnectionConfig {
     private String searchBase;
 
     /**
-     * The user filter.
-     */
-    private String filter;
-
-    /**
      * Gets the URL.
      *
      * @return the URL.
@@ -86,24 +81,6 @@ public class ConnectionConfig {
      */
     public void setAuthentication(String authentication) {
         this.authentication = authentication;
-    }
-
-    /**
-     * Gets the filter.
-     *
-     * @return the filter.
-     */
-    public String getFilter() {
-        return filter;
-    }
-
-    /**
-     * Sets the filter.
-     *
-     * @param filter the filter.
-     */
-    public void setFilter(String filter) {
-        this.filter = filter;
     }
 
     /**

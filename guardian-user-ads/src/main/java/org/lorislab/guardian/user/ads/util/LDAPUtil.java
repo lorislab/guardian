@@ -43,16 +43,36 @@ public final class LDAPUtil {
      */
     private static final String FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
 
+    /**
+     * The user name.
+     */
     private static final String ADS_NAME = "givenName";
-    
+
+    /**
+     * The user principal name.
+     */
     private static final String ADS_PRINCIPAL = "userPrincipalName";
-    
+
+    /**
+     * The user surname.
+     */
     private static final String ADS_SURNAME = "sn";
-    
+
+    /**
+     * The user email.
+     */
     private static final String ADS_EMAIL = "mail";
-    
+
+    /**
+     * The user id.
+     */
     public static final String ADS_USER_ID = "sAMAccountName";
-    
+
+    /**
+     * The use member of group attribute.
+     */
+    public static final String ADS_MEMBER_OF = "memberOf";
+
     /**
      * The default constructor.
      */
@@ -60,6 +80,12 @@ public final class LDAPUtil {
         // empty constructor
     }
 
+    /**
+     * Creates active directory the search criteria.
+     *
+     * @param criteria the search criteria.
+     * @return the corresponding search criteria string.
+     */
     public static String createSearchCriteria(UserSourceSearchCriteria criteria) {
         StringBuilder sb = new StringBuilder();
         sb.append("(&(objectClass=person)");
@@ -67,28 +93,42 @@ public final class LDAPUtil {
             if (criteria.getPrincipal() != null) {
                 addCriteria(ADS_PRINCIPAL, criteria.getPrincipal(), sb);
             }
-            if (criteria.getUserId()!= null) {
+            if (criteria.getUserId() != null) {
                 addCriteria(ADS_USER_ID, criteria.getUserId(), sb);
             }
-            if (criteria.getSurname()!= null) {
+            if (criteria.getSurname() != null) {
                 addCriteria(ADS_SURNAME, criteria.getSurname(), sb);
             }
-            if (criteria.getEmail()!= null) {
+            if (criteria.getEmail() != null) {
                 addCriteria(ADS_EMAIL, criteria.getEmail(), sb);
-            }    
-            if (criteria.getName()!= null) {
+            }
+            if (criteria.getName() != null) {
                 addCriteria(ADS_NAME, criteria.getName(), sb);
-            }             
+            }
         }
         sb.append(')');
-        
+
         return sb.toString();
     }
-    
+
+    /**
+     * Adds the search attribute.
+     *
+     * @param name the name.
+     * @param value the value.
+     * @param sb the search criteria builder.
+     * @return the updated search criteria builder.
+     */
     private static StringBuilder addCriteria(String name, String value, StringBuilder sb) {
         return sb.append("&(").append(name).append("=").append(value).append(")");
     }
-    
+
+    /**
+     * Maps the result to the list of user source data.
+     *
+     * @param ldapResult the active directory result.
+     * @return the corresponding list of user source data.
+     */
     public static List<UserSourceData> map(NamingEnumeration<SearchResult> ldapResult) {
         List<UserSourceData> result = null;
         if (ldapResult != null) {
@@ -99,11 +139,17 @@ public final class LDAPUtil {
                 if (user != null) {
                     result.add(user);
                 }
-            }        
+            }
         }
         return result;
     }
-    
+
+    /**
+     * Maps the user attributes.
+     *
+     * @param attrs the active directory attributes.
+     * @return the corresponding user data.
+     */
     public static UserSourceData mapAttributes(Attributes attrs) {
         UserSourceData result = null;
         if (attrs != null) {
@@ -116,7 +162,14 @@ public final class LDAPUtil {
         }
         return result;
     }
-    
+
+    /**
+     * Maps the attribute.
+     *
+     * @param attrs the attribute.
+     * @param name the name.
+     * @return the attribute value.
+     */
     private static String map(Attributes attrs, String name) {
         String result = null;
         try {
@@ -125,12 +178,13 @@ public final class LDAPUtil {
             result = object.toString();
         } catch (Exception e) {
             // on exception, the attribute will not be set
-        }        
+        }
         return result;
     }
-    
+
     /**
      * Creates the LDAP context.
+     *
      * @param config the configuration.
      * @return the LDAP context.
      * @throws java.lang.Exception if the method fails.
@@ -143,7 +197,7 @@ public final class LDAPUtil {
         if (config.getUser() != null) {
             ldapEnv.put(Context.SECURITY_PRINCIPAL, config.getUser());
         }
-        if (config.getPassword() != null) {            
+        if (config.getPassword() != null) {
             PasswordService service = PasswordServiceFactory.getService();
             char[] tmp = service.getPassword(config.getPassword());
             ldapEnv.put(Context.SECURITY_CREDENTIALS, new String(tmp));

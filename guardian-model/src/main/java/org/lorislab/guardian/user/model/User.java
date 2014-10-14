@@ -32,7 +32,7 @@ import org.lorislab.jel.jpa.model.TraceablePersistent;
  * @author Andrej Petras
  */
 @Entity(name = "GUser")
-@Table(name = "GU_USER_PROFILE")
+@Table(name = "GU_USER")
 public class User extends TraceablePersistent {
 
     /**
@@ -57,7 +57,7 @@ public class User extends TraceablePersistent {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "GU_USER_ROLES",
-            joinColumns = @JoinColumn(name = "C_USER_GUID")            
+            joinColumns = @JoinColumn(name = "C_USER_GUID")
     )
     @Column(name = "C_ROLE")
     private Set<String> roles;
@@ -68,6 +68,13 @@ public class User extends TraceablePersistent {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "C_PROFILE_GUID")
     private UserProfile profile;
+
+    /**
+     * The user configuration.
+     */
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "C_CONFIG_GUID")
+    private UserConfig config;
 
     /**
      * Gets the roles.
@@ -139,6 +146,24 @@ public class User extends TraceablePersistent {
      */
     public void setProfile(UserProfile profile) {
         this.profile = profile;
+    }
+
+    /**
+     * Gets the user configuration.
+     *
+     * @return the user configuration.
+     */
+    public UserConfig getConfig() {
+        return config;
+    }
+
+    /**
+     * Sets the user configuration.
+     *
+     * @param config the user configuration.
+     */
+    public void setConfig(UserConfig config) {
+        this.config = config;
     }
 
 }

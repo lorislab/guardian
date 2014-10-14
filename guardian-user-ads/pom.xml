@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.lorislab.guardian</groupId>
-            <artifactId>guardian-user-api</artifactId>
+            <artifactId>guardian-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

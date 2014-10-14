@@ -26,8 +26,8 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
 import org.lorislab.guardian.user.ads.config.ConnectionConfig;
-import org.lorislab.guardian.user.api.criteria.UserSourceSearchCriteria;
-import org.lorislab.guardian.user.api.model.UserSourceData;
+import org.lorislab.guardian.api.user.criteria.UserSourceSearchCriteria;
+import org.lorislab.guardian.api.user.model.UserSourceData;
 import org.lorislab.treasure.api.factory.PasswordServiceFactory;
 import org.lorislab.treasure.api.service.PasswordService;
 

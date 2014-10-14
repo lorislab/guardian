@@ -13,7 +13,6 @@
         <module>guardian-model</module>
         <module>guardian-jsf</module>
         <module>guardian-bom</module>
-        <module>guardian-user-api</module>
         <module>guardian-user-ads</module>
     </modules>
 	
@@ -143,12 +142,7 @@
                         <releaseProfiles>release</releaseProfiles>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                     </configuration>
-                </plugin>				
-                <plugin>
-                    <groupId>de.smartics.maven.plugin</groupId>
-                    <artifactId>hibernate4-maven-plugin</artifactId>
-                    <version>0.2.0</version>
-                </plugin>                                          
+                </plugin>				                                         
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.12.4</version>
@@ -254,6 +248,31 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ddl</id>           
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>de.smartics.maven.plugin</groupId>
+                        <artifactId>hibernate4-maven-plugin</artifactId>
+                        <version>0.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>export</id>
+                                <goals>
+                                    <goal>hbm2ddl</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>  
+                </plugins>                
+            </build>                    
+        </profile>         
     </profiles>
 	
     <distributionManagement>

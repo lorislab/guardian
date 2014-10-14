@@ -29,9 +29,9 @@ import javax.naming.directory.SearchResult;
 import org.lorislab.barn.api.service.ConfigurationService;
 import org.lorislab.guardian.user.ads.config.ConnectionConfig;
 import org.lorislab.guardian.user.ads.util.LDAPUtil;
-import org.lorislab.guardian.user.api.criteria.UserSourceSearchCriteria;
-import org.lorislab.guardian.user.api.model.UserSourceData;
-import org.lorislab.guardian.user.api.service.UserSourceService;
+import org.lorislab.guardian.api.user.criteria.UserSourceSearchCriteria;
+import org.lorislab.guardian.api.user.model.UserSourceData;
+import org.lorislab.guardian.api.user.service.UserSourceService;
 
 /**
  * The ADS user source service bean.

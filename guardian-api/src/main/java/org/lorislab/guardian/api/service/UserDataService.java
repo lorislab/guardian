@@ -20,6 +20,7 @@ import java.util.Set;
 import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.guardian.api.model.UserPermission;
+import org.lorislab.guardian.api.user.model.UserSourceData;
 
 /**
  * The user data profile service.
@@ -27,6 +28,15 @@ import org.lorislab.guardian.api.model.UserPermission;
  * @author Andrej Petras
  */
 public interface UserDataService {
+
+    /**
+     * Creates the user data model from the user source data.
+     *
+     * @param userSource the user source data.
+     * @return the corresponding user data model.
+     * @throws Exception if the method fails.
+     */
+    public UserData createUserData(UserSourceData userSource) throws Exception;
 
     /**
      * Deletes the user password.
@@ -74,7 +84,7 @@ public interface UserDataService {
      * @throws java.lang.Exception if the method fails.
      */
     public UserData getUserData(String principal) throws Exception;
-    
+
     /**
      * Saves the user data.
      *

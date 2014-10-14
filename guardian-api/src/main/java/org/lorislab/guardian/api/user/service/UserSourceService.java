@@ -13,14 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.lorislab.guardian.api.user.service;
 
-package org.lorislab.guardian.api.model;
+import java.util.List;
+import org.lorislab.guardian.api.user.criteria.UserSourceSearchCriteria;
+import org.lorislab.guardian.api.user.model.UserSourceData;
 
 /**
+ * The user source service.
  *
  * @author Andrej Petras
  */
-public interface UserMetaData {
-    
-    public String getUser();
+public interface UserSourceService {
+
+    /**
+     * Finds the user by the criteria.
+     *
+     * @param criteria the user source search criteria.
+     * @return the list of the user source data.
+     * @throws java.lang.Exception if the method fails.
+     */
+    public List<UserSourceData> findUsers(UserSourceSearchCriteria criteria) throws Exception;
 }

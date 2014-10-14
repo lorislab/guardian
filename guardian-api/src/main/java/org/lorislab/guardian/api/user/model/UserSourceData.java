@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.lorislab.guardian.user.api.criteria;
+package org.lorislab.guardian.api.user.model;
 
-import org.lorislab.jel.base.criteria.AbstractSearchCriteria;
+import java.io.Serializable;
 
 /**
- * The user source search criteria.
+ * The user source data model.
  *
  * @author Andrej Petras
  */
-public class UserSourceSearchCriteria extends AbstractSearchCriteria {
+public class UserSourceData implements Serializable {
 
     /**
      * The UID for this class.
      */
-    private static final long serialVersionUID = 7803719755292635217L;
+    private static final long serialVersionUID = -3402024024880372073L;
 
     /**
      * The principal.
@@ -50,26 +50,6 @@ public class UserSourceSearchCriteria extends AbstractSearchCriteria {
      * The user ID.
      */
     private String userId;
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void reset() {
-        principal = null;
-        userId = null;
-        name = null;
-        surname = null;
-        email = null;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean isEmpty() {
-        return isEmpty(name, surname, email, principal, userId);
-    }
 
     /**
      * Gets the user ID.
@@ -160,5 +140,4 @@ public class UserSourceSearchCriteria extends AbstractSearchCriteria {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
 }

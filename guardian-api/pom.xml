@@ -11,4 +11,10 @@
     <artifactId>guardian-api</artifactId> 
     <name>guardian-api</name>
 	
+    <dependencies>
+        <dependency>
+            <groupId>org.lorislab.jel</groupId>
+            <artifactId>jel-base</artifactId>            
+        </dependency>
+    </dependencies>
 </project>

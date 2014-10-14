@@ -45,11 +45,6 @@ public class UserData implements Serializable {
     private UserDataConfig config;
 
     /**
-     * The user meta data.
-     */
-    private UserMetaData metadata;
-
-    /**
      * The user profile.
      */
     private UserDataProfile profile;
@@ -78,24 +73,6 @@ public class UserData implements Serializable {
         this.enabled = enabled;
     }
     
-    /**
-     * Gets the meta data.
-     *
-     * @return the meta data.
-     */
-    public UserMetaData getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * Sets the meta data.
-     *
-     * @param metadata the meta data.
-     */
-    public void setMetadata(UserMetaData metadata) {
-        this.metadata = metadata;
-    }
-
     /**
      * Gets the principal.
      *

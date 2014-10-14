@@ -36,7 +36,7 @@ import org.lorislab.jel.jpa.model.Persistent;
 @Entity(name = "GRole")
 @Table(name = "GU_ROLE",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"C_APP_GUID", "C_NAME"})})
+            @UniqueConstraint(columnNames = {"C_NAME"})})
 public class Role extends Persistent {
 
     /**

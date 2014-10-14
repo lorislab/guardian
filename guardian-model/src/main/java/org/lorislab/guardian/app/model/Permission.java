@@ -31,9 +31,9 @@ import org.lorislab.jel.jpa.model.Persistent;
  * @author Andrej Petras
  */
 @Entity(name = "GPermission")
-@Table(name = "GU_PERM",
+@Table(name = "GU_PERMISSION",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"C_APP_GUID", "C_CONTEXT", "C_ACTION"})})
+            @UniqueConstraint(columnNames = {"C_CONTEXT", "C_ACTION"})})
 public class Permission extends Persistent {
 
     /**

@@ -38,11 +38,17 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
     
     private boolean fetchProfile;
     
+    private boolean fetchConfig;
+
+    private boolean fetchRoles;
+    
     @Override
     public void reset() {
         guid = null;
         principal = null;
         fetchProfile = false;
+        fetchConfig = false;
+        fetchRoles = false;
         enabled = null;
         guids = null;
     }
@@ -52,6 +58,22 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
         return isEmpty(guid, principal, enabled, guids);
     }
 
+    public boolean isFetchRoles() {
+        return fetchRoles;
+    }
+
+    public void setFetchRoles(boolean fetchRoles) {
+        this.fetchRoles = fetchRoles;
+    }
+    
+    public boolean isFetchConfig() {
+        return fetchConfig;
+    }
+
+    public void setFetchConfig(boolean fetchConfig) {
+        this.fetchConfig = fetchConfig;
+    }
+    
     public Set<String> getGuids() {
         return guids;
     }

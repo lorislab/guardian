@@ -28,7 +28,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import org.lorislab.guardian.api.model.UserDataProfile;
 import org.lorislab.guardian.user.model.User;
 import org.lorislab.guardian.user.model.UserProfile;
 import org.lorislab.guardian.user.model.UserProfile_;
@@ -66,8 +65,8 @@ public class UserProfileService extends AbstractEntityServiceBean<UserProfile> {
      * @throws Exception if the method fails.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public UserDataProfile saveProfile(UserDataProfile profile) throws Exception {
-        return this.save((UserProfile) profile);
+    public UserProfile saveProfile(UserProfile profile) throws Exception {
+        return this.save(profile);
     }
 
     /**

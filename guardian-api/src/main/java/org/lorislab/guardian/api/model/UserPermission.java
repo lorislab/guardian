@@ -20,7 +20,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- *
+ * The user permission model.
+ * 
  * @author Andrej Petras
  */
 public class UserPermission implements Serializable {

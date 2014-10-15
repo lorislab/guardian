@@ -88,10 +88,28 @@ public class UserService extends AbstractEntityServiceBean<User> {
         }
         return result;
     }
-    
+  
     public User getUserByPrincipal(String principal) throws ServiceException {
+        User result = null;
+        CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
+        CriteriaQuery<User> cq = getBaseEAO().createCriteriaQuery();
+        Root<User> root = cq.from(User.class);
+ 
+        cq.where(cb.equal(root.get(User_.principal), principal));
+        
+        TypedQuery<User> query = getBaseEAO().createTypedQuery(cq);
+        List<User> tmp = query.getResultList();        
+        if (tmp != null && !tmp.isEmpty()) {
+            result = tmp.get(0);
+        }
+        return result;
+    }
+    
+    public User getFullUserByPrincipal(String principal) throws ServiceException {
         UserSearchCriteria uc = new UserSearchCriteria();
         uc.setPrincipal(principal);
+        uc.setFetchConfig(true);
+        uc.setFetchProfile(true);
         return getUser(uc);
     }
     
@@ -118,6 +136,14 @@ public class UserService extends AbstractEntityServiceBean<User> {
                                          
             if (criteria.isFetchProfile()) {
                 root.fetch(User_.profile);
+            }
+            
+            if (criteria.isFetchConfig()) {
+                root.fetch(User_.config);
+            }
+            
+            if (criteria.isFetchRoles()) {
+                root.fetch(User_.roles);
             }
             
             if (criteria.getPrincipal() != null) {

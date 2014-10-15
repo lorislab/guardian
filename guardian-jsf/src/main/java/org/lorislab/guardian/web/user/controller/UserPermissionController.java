@@ -23,25 +23,22 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
-import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserPermission;
-import org.lorislab.guardian.api.service.UserDataController;
 import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.jel.jsf.api.interceptor.annotations.FacesServiceMethod;
 import org.lorislab.jel.jsf.permission.controller.PermissionController;
 
 /**
- * The user data controller.
+ * The user permission controller.
  *
  * @author Andrej Petras
  */
-@Named("userDataC")
+@Named("userPermissionC")
 @Alternative
 @SessionScoped
-public class UserDataControllerBean implements UserDataController, PermissionController, Serializable {
+public class UserPermissionController implements PermissionController, Serializable {
 
     /**
      * The UID for this class.
@@ -51,18 +48,13 @@ public class UserDataControllerBean implements UserDataController, PermissionCon
     /**
      * The logger for this class.
      */
-    private static final Logger LOGGER = Logger.getLogger(UserDataControllerBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UserPermissionController.class.getName());
 
     /**
      * The user data service.
      */
     @EJB
     private UserDataService service;
-
-    /**
-     * The user data.
-     */
-    private UserData data;
 
     /**
      * The user data model.
@@ -82,49 +74,20 @@ public class UserDataControllerBean implements UserDataController, PermissionCon
     }
 
     /**
-     * Gets the user data.
-     *
-     * @return the user data.
-     */
-    @Produces
-    @Override
-    public UserData getModel() {
-        if (data == null) {
-            init();
-        }
-        return data;
-    }
-
-    /**
      * Loads the user data.
      */
     @FacesServiceMethod
-    @Override
     public void load() throws Exception {
         try {
             Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
             if (principal != null) {
-                data = service.loadUserSessionData(principal.getName());
-                if (data != null) {
-                    permissions = service.getUserPermission(principal.getName());
-                }
+                permissions = service.getUserPermission(principal.getName());
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error loading the user data!", ex);
         }
     }
-
-    /**
-     * Saves the user data.
-     *
-     * @throws Exception if the method fails.
-     */
-    @FacesServiceMethod
-    @Override
-    public void save() throws Exception {
-        data = service.saveUserData(data);
-    }
-
+   
     /**
      * {@inheritDoc }
      */

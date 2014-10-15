@@ -16,24 +16,16 @@
 package org.lorislab.guardian.service.ejb;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import org.lorislab.guardian.api.model.UserDataProfile;
-import org.lorislab.guardian.api.model.UserDataConfig;
-import org.lorislab.guardian.api.model.UserData;
 import org.lorislab.guardian.api.model.UserPermission;
 import org.lorislab.guardian.api.service.UserDataService;
-import org.lorislab.guardian.api.user.model.UserSourceData;
 import org.lorislab.guardian.app.ejb.RoleService;
 import org.lorislab.guardian.app.model.Permission;
 import org.lorislab.guardian.app.model.Role;
@@ -41,7 +33,6 @@ import org.lorislab.guardian.user.ejb.UserPasswordService;
 import org.lorislab.guardian.user.ejb.UserService;
 import org.lorislab.guardian.user.ejb.UserProfileService;
 import org.lorislab.guardian.user.model.User;
-import org.lorislab.guardian.user.model.UserProfile;
 import org.lorislab.guardian.user.model.UserPassword;
 
 /**
@@ -134,93 +125,6 @@ public class UserDataServiceBean implements UserDataService {
      * {@inheritDoc }
      */
     @Override
-    public UserData loadUserSessionData(String principal) throws Exception {
-        UserData result = null;
-        if (principal != null) {
-            // load user profile
-            UserProfile profile = userProfileService.getProfileByPrincipal(principal);
-            if (profile != null) {
-
-                User user = profile.getUser();
-                if (user != null && user.isEnabled()) {
-                    result = new UserData(principal);
-                    result.setProfile(profile);
-                    result.setEnabled(user.isEnabled());
-                } else {
-                    LOGGER.log(Level.INFO, "The user {0} is not enabled for the application", principal);
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public UserData getUserData(String principal) throws Exception {
-        UserData result = null;
-        if (principal != null) {
-            // load user profile
-            UserProfile profile = userProfileService.getProfileByPrincipal(principal);
-            if (profile != null) {
-
-                result = new UserData(principal);
-                result.setProfile(profile);
-                result.setEnabled(profile.getUser().isEnabled());
-                String userId = profile.getUserGuid();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public UserData saveUserData(UserData data) throws Exception {
-        if (data != null) {
-            if (data.getProfile() != null) {
-
-                userProfileService.saveProfile(data.getProfile());
-                UserDataProfile profile = userProfileService.getProfileByPrincipal(data.getPrincipal());
-                data.setProfile(profile);
-            }
-        }
-        return data;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<UserData> getUserData(Set<String> users) throws Exception {
-        List<UserData> result = null;
-        if (users != null && !users.isEmpty()) {
-
-            // load user profiles
-            List<UserProfile> profiles = userProfileService.getProfiles(users);
-            if (profiles != null) {
-                Map<String, UserData> tmp = new HashMap<>();
-                result = new ArrayList<>(profiles.size());
-
-                for (UserProfile profile : profiles) {
-                    UserData item = new UserData();
-                    item.setProfile(profile);
-                    item.setEnabled(profile.getUser().isEnabled());
-                    tmp.put(profile.getUserGuid(), item);
-                    result.add(item);
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
     public UserPermission getUserPermission(String principal) throws Exception {
         UserPermission result = null;
 
@@ -251,48 +155,4 @@ public class UserDataServiceBean implements UserDataService {
         return result;
     }
 
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<UserData> getUserData() throws Exception {
-        List<UserData> result = null;
-        List<? extends UserDataProfile> profiles = userProfileService.getProfiles();
-        if (profiles != null) {
-            result = new ArrayList<>(profiles.size());
-            for (UserDataProfile profile : profiles) {
-                UserData item = new UserData();
-                item.setProfile(profile);
-                result.add(item);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public List<UserDataProfile> getUserDataProfiles() throws Exception {
-        List<UserDataProfile> result = null;
-        List<? extends UserDataProfile> profiles = userProfileService.getProfiles();
-        if (profiles != null) {
-            result = new ArrayList<>(profiles);
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */    
-    @Override
-    public UserData createUserData(UserSourceData userSource) throws Exception {
-        UserData result = null;
-        if (userSource != null) {
-            result = new UserData(userSource.getUserId());
-                      
-            
-        }
-        return result;
-    }
 }

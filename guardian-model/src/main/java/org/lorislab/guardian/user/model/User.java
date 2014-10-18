@@ -16,6 +16,7 @@
 package org.lorislab.guardian.user.model;
 
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -65,14 +66,14 @@ public class User extends TraceablePersistent {
     /**
      * The user profile.
      */
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "C_PROFILE_GUID")
     private UserProfile profile;
 
     /**
      * The user configuration.
      */
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "C_CONFIG_GUID")
     private UserConfig config;
 

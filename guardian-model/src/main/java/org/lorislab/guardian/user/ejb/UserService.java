@@ -105,6 +105,14 @@ public class UserService extends AbstractEntityServiceBean<User> {
         return result;
     }
     
+    public User getFullUser(String guid) throws ServiceException {
+        UserSearchCriteria uc = new UserSearchCriteria();
+        uc.setGuid(guid);
+        uc.setFetchConfig(true);
+        uc.setFetchProfile(true);
+        return getUser(uc);        
+    }
+    
     public User getFullUserByPrincipal(String principal) throws ServiceException {
         UserSearchCriteria uc = new UserSearchCriteria();
         uc.setPrincipal(principal);

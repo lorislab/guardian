@@ -57,6 +57,15 @@ public class RoleService extends AbstractEntityServiceBean<Role> {
     }
 
     /**
+     * Gets the list of all roles.
+     *
+     * @return the list of all roles.
+     */
+    public List<Role> getRoles() {
+        return getAll();
+    }
+
+    /**
      * Gets the list of user roles.
      *
      * @param roles set of roles.

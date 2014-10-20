@@ -78,6 +78,31 @@ public class User extends TraceablePersistent {
     private UserConfig config;
 
     /**
+     * The user password.
+     */
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "C_PASSWORD_GUID")
+    private UserPassword password;
+
+    /**
+     * Gets the user password.
+     *
+     * @return the user password.
+     */
+    public UserPassword getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets the user password.
+     *
+     * @param password the user password.
+     */
+    public void setPassword(UserPassword password) {
+        this.password = password;
+    }
+
+    /**
      * Gets the roles.
      *
      * @return the roles.

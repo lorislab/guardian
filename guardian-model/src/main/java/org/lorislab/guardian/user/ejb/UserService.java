@@ -111,6 +111,7 @@ public class UserService extends AbstractEntityServiceBean<User> {
         uc.setFetchRoles(true);
         uc.setFetchConfig(true);
         uc.setFetchProfile(true);
+        uc.setFetchPassword(true);
         return getUser(uc);        
     }
     

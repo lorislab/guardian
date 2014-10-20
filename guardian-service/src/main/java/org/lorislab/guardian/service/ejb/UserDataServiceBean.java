@@ -46,17 +46,6 @@ import org.lorislab.guardian.user.model.UserPassword;
 public class UserDataServiceBean implements UserDataService {
 
     /**
-     * The logger for this class.
-     */
-    private static final Logger LOGGER = Logger.getLogger(UserDataServiceBean.class.getName());
-
-    /**
-     * The profile service.
-     */
-    @EJB
-    private UserProfileService userProfileService;
-
-    /**
      * The user service.
      */
     @EJB
@@ -77,6 +66,29 @@ public class UserDataServiceBean implements UserDataService {
     /**
      * {@inheritDoc }
      */
+    public boolean setUserPassword(String principal, String newPassword) throws Exception {
+        boolean result = false;
+        User user = userService.getUserByPrincipal(principal);
+        if (user != null) {
+            UserPassword up = userPasswordService.getUserPasswordByUser(user.getGuid());
+            if (up != null) {
+                    up.setPassword(newPassword);
+            } else {
+                up = new UserPassword();
+                up.setUser(user);
+                up.setPassword(newPassword);
+            }
+            if (up != null) {
+                userPasswordService.saveUserPassword(up);
+                result = true;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public boolean changeUserPassword(String principal, String oldPassword, String newPassword) throws Exception {
         boolean result = false;
@@ -93,7 +105,7 @@ public class UserDataServiceBean implements UserDataService {
 
             } else {
                 up = new UserPassword();
-                up.setUser(user.getGuid());
+                up.setUser(user);
                 up.setPassword(newPassword);
             }
 

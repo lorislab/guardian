@@ -157,6 +157,10 @@ public class UserService extends AbstractEntityServiceBean<User> {
                 root.fetch(User_.roles);
             }
             
+            if (criteria.isFetchPassword()) {
+                root.fetch(User_.password);
+            }
+            
             if (criteria.getPrincipal() != null) {
                 predicates.add(cb.equal(root.get(User_.principal), criteria.getPrincipal()));
             }

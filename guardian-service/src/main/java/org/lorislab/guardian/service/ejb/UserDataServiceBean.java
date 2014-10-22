@@ -15,7 +15,6 @@
  */
 package org.lorislab.guardian.service.ejb;
 
-import java.util.logging.Logger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,11 +28,7 @@ import org.lorislab.guardian.api.service.UserDataService;
 import org.lorislab.guardian.app.ejb.RoleService;
 import org.lorislab.guardian.app.model.Permission;
 import org.lorislab.guardian.app.model.Role;
-import org.lorislab.guardian.user.ejb.UserPasswordService;
 import org.lorislab.guardian.user.ejb.UserService;
-import org.lorislab.guardian.user.ejb.UserProfileService;
-import org.lorislab.guardian.user.model.User;
-import org.lorislab.guardian.user.model.UserPassword;
 
 /**
  * The default user data profile service.
@@ -56,82 +51,6 @@ public class UserDataServiceBean implements UserDataService {
      */
     @EJB
     private RoleService roleService;
-
-    /**
-     * The user password service.
-     */
-    @EJB
-    private UserPasswordService userPasswordService;
-
-    /**
-     * {@inheritDoc }
-     */
-    public boolean setUserPassword(String principal, String newPassword) throws Exception {
-        boolean result = false;
-        User user = userService.getUserByPrincipal(principal);
-        if (user != null) {
-            UserPassword up = userPasswordService.getUserPasswordByUser(user.getGuid());
-            if (up != null) {
-                    up.setPassword(newPassword);
-            } else {
-                up = new UserPassword();
-                up.setUser(user);
-                up.setPassword(newPassword);
-            }
-            if (up != null) {
-                userPasswordService.saveUserPassword(up);
-                result = true;
-            }
-        }
-        return result;
-    }
-    
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean changeUserPassword(String principal, String oldPassword, String newPassword) throws Exception {
-        boolean result = false;
-        User user = userService.getUserByPrincipal(principal);
-        if (user != null) {
-            UserPassword up = userPasswordService.getUserPasswordByUser(user.getGuid());
-            if (up != null) {
-                if ((up.getPassword() != null && up.getPassword().equals(oldPassword))
-                        || (up.getPassword() == null && oldPassword == null)) {
-                    up.setPassword(newPassword);
-                } else {
-                    up = null;
-                }
-
-            } else {
-                up = new UserPassword();
-                up.setUser(user);
-                up.setPassword(newPassword);
-            }
-
-            if (up != null) {
-                userPasswordService.saveUserPassword(up);
-                result = true;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean deleteUserPassword(String principal) throws Exception {
-        boolean result = false;
-        User user = userService.getUserByPrincipal(principal);
-        if (user != null) {
-            UserPassword up = userPasswordService.getUserPasswordByUser(user.getGuid());
-            if (up != null) {
-                result = userPasswordService.deleteUserPassword(up.getGuid());
-            }
-        }
-        return result;
-    }
 
     /**
      * {@inheritDoc }

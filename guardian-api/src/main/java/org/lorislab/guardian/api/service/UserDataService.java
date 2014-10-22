@@ -25,26 +25,6 @@ import org.lorislab.guardian.api.model.UserPermission;
 public interface UserDataService {
     
     /**
-     * Deletes the user password.
-     *
-     * @param principal the user principal.
-     * @return returns {@code true} if the password was deleted.
-     * @throws Exception if the method fails.
-     */
-    public boolean deleteUserPassword(String principal) throws Exception;
-
-    /**
-     * Change the user password.
-     *
-     * @param principal the user principal.
-     * @param oldPassword the old password.
-     * @param newPassword the new password.
-     * @return returns {@code true} if the password was changed.
-     * @throws Exception if the method fails.
-     */
-    public boolean changeUserPassword(String principal, String oldPassword, String newPassword) throws Exception;
-
-    /**
      * Gets the user permissions.
      *
      * @param principal the principal.

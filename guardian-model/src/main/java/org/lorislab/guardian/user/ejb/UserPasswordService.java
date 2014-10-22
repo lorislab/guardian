@@ -25,10 +25,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.lorislab.guardian.user.model.User;
 import org.lorislab.guardian.user.model.UserPassword;
 import org.lorislab.guardian.user.model.UserPassword_;
+import org.lorislab.guardian.user.model.User_;
 import org.lorislab.jel.ejb.exception.ServiceException;
 import org.lorislab.jel.ejb.services.AbstractEntityServiceBean;
 
@@ -58,11 +62,11 @@ public class UserPasswordService extends AbstractEntityServiceBean<UserPassword>
     /**
      * Gets the user password object.
      *
-     * @param user the user.
+     * @param principal the principal.
      * @return the corresponding user password.
      * @throws ServiceException if the method fails.
      */
-    public UserPassword getUserPasswordByUser(String user) throws ServiceException {
+    public UserPassword getUserPasswordByPrincipal(String principal) throws ServiceException {
         UserPassword result = null;
 
         CriteriaBuilder cb = getBaseEAO().getCriteriaBuilder();
@@ -71,7 +75,9 @@ public class UserPasswordService extends AbstractEntityServiceBean<UserPassword>
 
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(cb.equal(root.get(UserPassword_.user), user));
+        Join<UserPassword, User> join = root.join(UserPassword_.user, JoinType.LEFT);
+        
+        predicates.add(cb.equal(join.get(User_.principal), principal));
 
         if (!predicates.isEmpty()) {
             cq.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));

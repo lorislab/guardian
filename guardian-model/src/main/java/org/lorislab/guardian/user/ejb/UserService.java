@@ -26,6 +26,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.lorislab.guardian.user.criteria.UserSearchCriteria;
@@ -146,19 +147,19 @@ public class UserService extends AbstractEntityServiceBean<User> {
         if (criteria != null) {
                                          
             if (criteria.isFetchProfile()) {
-                root.fetch(User_.profile);
+                root.fetch(User_.profile, JoinType.LEFT);
             }
             
             if (criteria.isFetchConfig()) {
-                root.fetch(User_.config);
+                root.fetch(User_.config, JoinType.LEFT);
             }
             
             if (criteria.isFetchRoles()) {
-                root.fetch(User_.roles);
+                root.fetch(User_.roles, JoinType.LEFT);
             }
             
             if (criteria.isFetchPassword()) {
-                root.fetch(User_.password);
+                root.fetch(User_.password, JoinType.LEFT);
             }
             
             if (criteria.getPrincipal() != null) {
